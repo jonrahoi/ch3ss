@@ -1,25 +1,24 @@
 import React from 'react';
 import logo from './logo.svg';
+import Counter from './Counter'
 import './App.css';
 import * as THREE from 'three';
 
 const App: React.FC = () => {
+
   return (
     <div className="App">
+      <Counter></Counter>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <button>
+          startGame
+        </button>
       </header>
+
     </div>
   );
 }
