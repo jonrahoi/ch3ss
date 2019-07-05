@@ -120,22 +120,27 @@
 			addBishop("black", -2);
 			addBishop("black", 1);
 
-			var knightGeometry = new THREE.CylinderGeometry(0.2, 0.25, 0.5, 16);
+			var knightGeometry = new THREE.OctahedronGeometry(0.35);
 
 			function addKnight(color, position) {
 				var knight;
 
 				if (color == "white") {
 					knight = new THREE.Mesh(knightGeometry, whiteMaterial);
-					knight.position.set(position, -2, -1);
+					knight.position.set(position, -2, -2);
 				}
 
 				if (color == "black") {
 					knight = new THREE.Mesh(knightGeometry, blackMaterial);
-					knight.position.set(position, 2, 1);
+					knight.position.set(position, 2, 2);
 				}
 				scene.add(knight);
 			}
+
+			addKnight("white", -1);
+			addKnight("white", 1);
+			addKnight("black", -1);
+			addKnight("black", 1);
 
 			var unicornGeometry = new THREE.IcosahedronGeometry(0.35);
 
