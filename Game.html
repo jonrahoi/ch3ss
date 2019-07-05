@@ -99,6 +99,43 @@
 			addRook("black", -2);
 			addRook("black", 2);
 
+			//var bishopGeometry = new THREE.TetrahedronGeometry(0.5);
+
+			function addBishop(color, position) {
+				var bishop;
+
+				if (color == "white") {
+					bishop = new THREE.Mesh(bishopGeometry, whiteMaterial);
+					bishop.position.set();
+				}
+
+				if (color == "black") {
+					bishop = new THREE.Mesh(bishopGeometry, whiteMaterial);
+					bishop.position.set();
+				}
+				scene.add(bishop);
+			}
+
+			var kingGeometry = new THREE.TetrahedronGeometry(0.5);
+
+			whiteKing = new THREE.Mesh(kingGeometry, whiteMaterial);
+			whiteKing.position.set(0, -2, -2);
+			scene.add(whiteKing);
+
+			blackKing = new THREE.Mesh(kingGeometry, blackMaterial);
+			blackKing.position.set(0, 2, 2);
+			scene.add(blackKing);
+
+			var queenGeometry = new THREE.ConeGeometry(0.17, 0.75, 16);
+
+			whiteQueen = new THREE.Mesh(queenGeometry, whiteMaterial);
+			whiteQueen.position.set(0, -2, -1);
+			scene.add(whiteQueen);
+
+			blackQueen = new THREE.Mesh(queenGeometry, blackMaterial);
+			blackQueen.position.set(0, 2, 1);
+			scene.add(blackQueen);
+
 			var render = function() {
 				controls.update();
 				requestAnimationFrame(render);
