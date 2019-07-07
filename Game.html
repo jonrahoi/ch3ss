@@ -13,7 +13,7 @@
 
 		<script>
 			var scene = new THREE.Scene();
-			var camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 1000);
+			var camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 100);
 			camera.position.y = -6;
 			var renderer = new THREE.WebGLRenderer({ antialias: true });		
 			
@@ -23,16 +23,16 @@
 			document.body.appendChild(renderer.domElement);
 
 			controls = new THREE.OrbitControls(camera, renderer.domElement);
-			controls.enableKeys = true;
-			
+			controls.enableKeys = false;
+
 			window.addEventListener('resize', () => {
-				renderer.setSize(window.innerWidth, window.innerHeight);
 				camera.aspect(window.innerWidth / window.innerHeight);
 				camera.updateProjectionMatrix();
+				renderer.setSize(window.innerWidth, window.innerHeight);
 			})
 
 			var light = new THREE.AmbientLight( 0x404040 );
-			scene.add( light );
+			scene.add(light);
 			
 			var raycaster = new THREE.Raycaster();
 
@@ -61,7 +61,7 @@
 			
 			for (var i = 0; i < 2; i++) {
 				for (var j = 0; j < 5; j++) {
-					var whitePawn = new THREE.Mesh(pawnGeometry, whiteMaterial);
+					var whitePawn = new THREE.Mesh(pawnGeometry, whiteMaterial.clone());
 					whitePawn.position.set(j - 2, -1, i - 2);
 					scene.add(whitePawn);
 				}
@@ -69,7 +69,7 @@
 
 			for (var i = 0; i < 2; i++) {
 				for (var j = 0; j < 5; j++) {
-					var blackPawn = new THREE.Mesh(pawnGeometry, blackMaterial);
+					var blackPawn = new THREE.Mesh(pawnGeometry, blackMaterial.clone());
 					blackPawn.position.set(j - 2, 1, i + 1);
 					scene.add(blackPawn);
 				}
@@ -81,12 +81,12 @@
 				var rook;
 
 				if (color == "white") {
-					rook = new THREE.Mesh(rookGeometry, whiteMaterial);	
+					rook = new THREE.Mesh(rookGeometry, whiteMaterial.clone());	
 					rook.position.set(position, -2, -2);
 				}
 
 				if (color == "black") {
-					rook = new THREE.Mesh(rookGeometry, blackMaterial);
+					rook = new THREE.Mesh(rookGeometry, blackMaterial.clone());
 					rook.position.set(position, 2, 2);
 				}
 
@@ -104,12 +104,12 @@
 				var bishop;
 
 				if (color == "white") {
-					bishop = new THREE.Mesh(bishopGeometry, whiteMaterial);
+					bishop = new THREE.Mesh(bishopGeometry, whiteMaterial.clone());
 					bishop.position.set(position, -2, -1);
 				}
 
 				if (color == "black") {
-					bishop = new THREE.Mesh(bishopGeometry, blackMaterial);
+					bishop = new THREE.Mesh(bishopGeometry, blackMaterial.clone());
 					bishop.position.set(position, 2, 1);
 				}
 				scene.add(bishop);
@@ -126,12 +126,12 @@
 				var knight;
 
 				if (color == "white") {
-					knight = new THREE.Mesh(knightGeometry, whiteMaterial);
+					knight = new THREE.Mesh(knightGeometry, whiteMaterial.clone());
 					knight.position.set(position, -2, -2);
 				}
 
 				if (color == "black") {
-					knight = new THREE.Mesh(knightGeometry, blackMaterial);
+					knight = new THREE.Mesh(knightGeometry, blackMaterial.clone());
 					knight.position.set(position, 2, 2);
 				}
 				scene.add(knight);
@@ -148,12 +148,12 @@
 				var unicorn;
 
 				if (color == "white") {
-					unicorn = new THREE.Mesh(unicornGeometry, whiteMaterial);
+					unicorn = new THREE.Mesh(unicornGeometry, whiteMaterial.clone());
 					unicorn.position.set(position, -2, -1);
 				}
 
 				if (color == "black") {
-					unicorn = new THREE.Mesh(unicornGeometry, blackMaterial);
+					unicorn = new THREE.Mesh(unicornGeometry, blackMaterial.clone());
 					unicorn.position.set(position, 2, 1);
 				}
 				scene.add(unicorn);
@@ -166,31 +166,54 @@
 
 			var kingGeometry = new THREE.TetrahedronGeometry(0.6);
 
-			whiteKing = new THREE.Mesh(kingGeometry, whiteMaterial);
+			whiteKing = new THREE.Mesh(kingGeometry, whiteMaterial.clone());
 			whiteKing.position.set(0, -2, -2);
 			scene.add(whiteKing);
 
-			blackKing = new THREE.Mesh(kingGeometry, blackMaterial);
+			blackKing = new THREE.Mesh(kingGeometry, blackMaterial.clone());
 			blackKing.position.set(0, 2, 2);
 			scene.add(blackKing);
 
 			var queenGeometry = new THREE.ConeGeometry(0.25, 0.75, 16);
 
-			whiteQueen = new THREE.Mesh(queenGeometry, whiteMaterial);
+			whiteQueen = new THREE.Mesh(queenGeometry, whiteMaterial.clone());
 			whiteQueen.position.set(0, -2, -1);
 			scene.add(whiteQueen);
 
-			blackQueen = new THREE.Mesh(queenGeometry, blackMaterial);
+			blackQueen = new THREE.Mesh(queenGeometry, blackMaterial.clone());
 			blackQueen.position.set(0, 2, 1);
 			scene.add(blackQueen);
 
+			var raycaster = new THREE.Raycaster();
+			var mouse = new THREE.Vector2();
+			
+			function onMouseMove( event ) {
+				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+				raycaster.setFromCamera( mouse, camera );
+				var intersects = raycaster.intersectObjects(scene.children);
+
+				intersects[0].object.material.color.set(0xff0000);
+
+				/*for (var i = 0; i < intersects.length; i++ ) {
+					intersects[i].object.material.color.set(0xff0000);
+				}*/
+			}
+			
+
 			var render = function() {
-				controls.update();
 				requestAnimationFrame(render);
+				controls.update();
 				renderer.render(scene, camera);
 			}
 
+			window.addEventListener('mousemove', onMouseMove, false );
+			window.requestAnimationFrame(render);
+
 			render();
+
+			
 		</script>
 	</body>
 </html>
