@@ -7,16 +7,29 @@ import Buttons from './components/bottons';
 import Ch3ss from './components/ch3ss';
 import Input from './test/input'
 import newInput from './test/newInput'
+import { Game } from '@rahoi/ch3ss_logic'
 
 //test only
 import Counter from './test/Counter'
 
-class App extends React.Component {
+
+interface MyComponentProps { }
+interface MyComponentState { liveGame: Game }
+
+class App extends React.Component<MyComponentProps, MyComponentState> {
+  constructor(props:any) {
+    super(props)
+    this.state = {liveGame: new Game()}
+  }
+  newGame(){
+    this.setState({liveGame: new Game()})
+  }
+  // this.setState({ username: 'rstacruz' })
   public render() {
     return (
-      
+
       <div className="App">
-        <PlayerInfo/>
+        <PlayerInfo game={this.state.liveGame} createGame={this.newGame.bind(this)}/>
         <History />
         <PossibleMoves />
         <Buttons />
