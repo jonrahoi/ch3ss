@@ -12,6 +12,7 @@ import { Game } from '@rahoi/ch3ss_logic'
 //test only
 import Counter from './test/Counter'
 
+interface Pos{x:number, y:number, z:number}
 
 interface MyComponentProps { }
 interface MyComponentState { liveGame: Game }
@@ -23,6 +24,11 @@ class App extends React.Component<MyComponentProps, MyComponentState> {
   }
   newGame(){
     this.setState({liveGame: new Game()})
+  }
+  move(from:Pos, to:Pos){
+    const g = this.state.liveGame
+    // g.move(from, to)
+    this.setState({liveGame: g})
   }
   // this.setState({ username: 'rstacruz' })
   public render() {
