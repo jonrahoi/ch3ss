@@ -1,5 +1,5 @@
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 100);
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.rotation.order = 'YXZ';
 camera.position.y = -7;
 camera.lookAt(0, 0, 0);
@@ -22,34 +22,38 @@ window.addEventListener('resize', () => {
 var light = new THREE.AmbientLight(0x404040);
 scene.add(light);
 
-var geometry = new THREE.BoxGeometry(1, 1, 1);
-var material = new THREE.MeshLambertMaterial({color: 0xfdfdfd, transparent: true, opacity: 0.05});
+var boardGeometry = new THREE.BoxGeometry(1, 1, 1);
+var boardMaterial = new THREE.MeshLambertMaterial({color: 0xfdfdfd, transparent: true, opacity: 0.1});
 
 var n = 5;
-var group = new THREE.Group();
+/* board (group of 125 cubes) is an Object3D while piecesGroup is a THREE.Group so that
+the raycaster recognized the board as a child of the scene but not the pieces */
+var board = new THREE.Object3D();
 
 for (var x = 0; x < n; x++) {
     for (var y = 0; y < n; y++) {
         for (var z = 0; z < n; z++) {
-            var cube = new THREE.Mesh(geometry, material);
+            var cube = new THREE.Mesh(boardGeometry, boardMaterial.clone());
             cube.position.set(x - 2, y - 2, z - 2);
-            group.add(cube);
+            board.add(cube);
         }
     }
 }
 
-scene.add(group);
+scene.add(board);
 
 var whiteMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
 var blackMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
 
-var pawnGeometry = new THREE.SphereGeometry(0.44);
+var piecesGroup = new THREE.Group();
+
+var pawnGeometry = new THREE.SphereGeometry(0.35, 16, 12);
 
 for (var i = 0; i < 2; i++) {
     for (var j = 0; j < 5; j++) {
         var whitePawn = new THREE.Mesh(pawnGeometry, whiteMaterial.clone());
         whitePawn.position.set(j - 2, -1, i - 2);
-        scene.add(whitePawn);
+        piecesGroup.add(whitePawn);
     }
 }
 
@@ -57,7 +61,7 @@ for (var i = 0; i < 2; i++) {
     for (var j = 0; j < 5; j++) {
         var blackPawn = new THREE.Mesh(pawnGeometry, blackMaterial.clone());
         blackPawn.position.set(j - 2, 1, i + 1);
-        scene.add(blackPawn);
+        piecesGroup.add(blackPawn);
     }
 }
 
@@ -76,7 +80,7 @@ function addRook(color, position) {
         rook.position.set(position, 2, 2);
     }
 
-    scene.add(rook);
+    piecesGroup.add(rook);
 }
 
 addRook("white", -2);
@@ -98,7 +102,7 @@ function addBishop(color, position) {
         bishop = new THREE.Mesh(bishopGeometry, blackMaterial.clone());
         bishop.position.set(position, 2, 1);
     }
-    scene.add(bishop);
+    piecesGroup.add(bishop);
 }
 
 addBishop("white", -2);
@@ -120,7 +124,7 @@ function addKnight(color, position) {
         knight = new THREE.Mesh(knightGeometry, blackMaterial.clone());
         knight.position.set(position, 2, 2);
     }
-    scene.add(knight);
+    piecesGroup.add(knight);
 }
 
 addKnight("white", -1);
@@ -142,7 +146,7 @@ function addUnicorn(color, position) {
         unicorn = new THREE.Mesh(unicornGeometry, blackMaterial.clone());
         unicorn.position.set(position, 2, 1);
     }
-    scene.add(unicorn);
+    piecesGroup.add(unicorn);
 }
 
 addUnicorn("white", -1);
@@ -154,21 +158,23 @@ var kingGeometry = new THREE.TetrahedronGeometry(0.6);
 
 whiteKing = new THREE.Mesh(kingGeometry, whiteMaterial.clone());
 whiteKing.position.set(0, -2, -2);
-scene.add(whiteKing);
+piecesGroup.add(whiteKing);
 
 blackKing = new THREE.Mesh(kingGeometry, blackMaterial.clone());
 blackKing.position.set(0, 2, 2);
-scene.add(blackKing);
+piecesGroup.add(blackKing);
 
 var queenGeometry = new THREE.ConeGeometry(0.25, 0.75, 16);
 
 whiteQueen = new THREE.Mesh(queenGeometry, whiteMaterial.clone());
 whiteQueen.position.set(0, -2, -1);
-scene.add(whiteQueen);
+piecesGroup.add(whiteQueen);
 
 blackQueen = new THREE.Mesh(queenGeometry, blackMaterial.clone());
 blackQueen.position.set(0, 2, 1);
-scene.add(blackQueen);
+piecesGroup.add(blackQueen);
+
+scene.add(piecesGroup);
 
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
@@ -178,9 +184,10 @@ function onMouseMove(event) {
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
     raycaster.setFromCamera( mouse, camera );
-    var intersects = raycaster.intersectObjects(scene.children);
+    var intersects = raycaster.intersectObjects(scene.children, true);
 
-    intersects[0].object.material.color.set(0xff0000);
+    intersects[0].object.material.emissive.set(0xff0000);
+    intersects[0].object.material.opacity = 0.25;
 }
 
 function onKeyPress(event) {
