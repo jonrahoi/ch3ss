@@ -45,7 +45,7 @@ class App extends React.Component {
   
   move = (from:Location, to:Location) => {
     let {liveGame} = this.state
-    liveGame.newGame();
+    //liveGame.newGame();
     //let moveCompleted = liveGame.move(from, to);
     this.setState({liveGame: liveGame})
     console.log("move in app");
