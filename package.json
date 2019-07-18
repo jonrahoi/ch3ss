@@ -3,15 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@rahoi/ch3ss_logic": "^1.0.4",
+    "@rahoi/ch3ss_logic": "^1.3.0",
     "@types/jest": "24.0.15",
     "@types/node": "12.0.8",
     "@types/react": "16.8.21",
     "@types/react-dom": "16.8.4",
+    "antd": "^3.20.3",
+    "element-react": "^1.4.34",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
     "three": "^0.105.2",
+    "three-orbitcontrols": "^2.102.2",
     "typescript": "3.5.2"
   },
   "scripts": {
@@ -34,5 +37,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-hot-loader": "^4.12.7"
   }
 }
