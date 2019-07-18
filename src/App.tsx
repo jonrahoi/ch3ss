@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import './App.css';
 import History from './components/history';
@@ -107,6 +108,7 @@ class App extends React.Component {
       </div>
     );
   }
+
 }
 
 export default App;
