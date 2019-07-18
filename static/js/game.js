@@ -9,7 +9,7 @@ var renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setClearColor("#ffffff");
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-document.body.appendChild(renderer.domElement);
+this.mount.appendChild(renderer.domElement);
 
 controls = new THREE.OrbitControls(camera, renderer.domElement);
 
