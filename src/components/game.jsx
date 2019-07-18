@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import * as THREE from 'three';
-//TODO: add OrbitControls
+const OrbitControls = require('three-orbitcontrols');
+/*why does import and require both work??*/
 
 export default class Game extends Component {
     componentDidMount() {
@@ -16,7 +17,9 @@ export default class Game extends Component {
         renderer.setClearColor("#ffffff");
         renderer.setSize(window.innerWidth, window.innerHeight);
 
-        this.mount.appendChild( renderer.domElement );
+        this.mount.appendChild(renderer.domElement);
+        
+        const controls = new OrbitControls(camera, renderer.domElement)
 
         const light = new THREE.AmbientLight(0x404040);
         scene.add(light);
@@ -206,8 +209,9 @@ export default class Game extends Component {
         }
         
         var renderScene = function () {
-          requestAnimationFrame( renderScene );
-          renderer.render( scene, camera );
+          requestAnimationFrame(renderScene);
+          controls.update();
+          renderer.render(scene, camera);
         };
 
         window.addEventListener('mousemove', onMouseMove, false);
