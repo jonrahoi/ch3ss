@@ -4,6 +4,9 @@ import * as THREE from 'three';
 const OrbitControls = require('three-orbitcontrols');
 /*why does import and require both work??*/
 
+//TODO: function that jumps camera to positions
+// TODO: limit size of game window
+
 export default class Game extends Component {
     componentDidMount() {
         // === THREE.JS CODE START ===
@@ -223,7 +226,7 @@ export default class Game extends Component {
     
     render() {
         return (
-          <div ref={ref => (this.mount = ref)} />
+          <div id = {'game'} ref={ref => (this.mount = ref)} />
         )
     }
 

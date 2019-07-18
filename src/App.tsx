@@ -95,12 +95,10 @@ class App extends React.Component {
   public render() {
     return (
       <div className="App">
-        {/* <Button type="primary">Primary</Button> */}
         <PlayerInfo game={this.state.liveGame} step = {this.state.step}/>
         
         <Move move = {this.move.bind(this)} addStep = {this.addStep.bind(this)} test = {this.test.bind(this)} />
         <Buttons />
-        {/* <Ch3ss /> */}
         <PossibleMove possibleMoves = {this.state.possibleMoves} liveGame = {this.state.liveGame} possible = {this.possible.bind(this)}/>
         <History history = {this.state.history}/>
         <What />
