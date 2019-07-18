@@ -1,33 +1,59 @@
-import * as React from 'react';
 
-export default class History extends React.Component<{},{value: any}>{
-    constructor(props: any) {
-        super(props);
-        this.state = {
-          value: 'move history'
-        };
-    
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-      }
-    
-      public handleChange(event: { target: { value: any; }; }) {
-        this.setState({value: event.target.value});
-      }
-    
-      public handleSubmit(event: { preventDefault: () => void; }) {
-        alert('An essay was submitted: ' + this.state.value);
-        event.preventDefault();
-      }
-    
-      public render() {
-        return (
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              <textarea value={this.state.value} onChange={this.handleChange} />
-            </label>
-            {/* <input type="submit" value="Submit" /> */}
-          </form>
-        );
-      }
+//import React from 'react';
+import ReactDOM from 'react-dom';
+import 'antd/dist/antd.css';
+import '../index.css';
+import { Table } from 'antd';
+
+import React, { Component } from 'react'
+
+interface IProps {
+  history: any
 }
+interface IState {
+  history: any
+}
+export default class what extends Component <IState, IProps>{
+  render() {
+    const columns = [
+      {
+        title: 'Player',
+        dataIndex: 'player',
+        width: 10,
+      },
+      {
+        title: 'From',
+        dataIndex: 'from',
+        width: 50,
+      },
+      {
+        title: 'To',
+        dataIndex: 'to',
+        width: 50,
+      },
+      
+    ];
+    
+    
+    const data = [];
+    for (let i = 0; i < 100; i++) {
+      data.push({
+        key: i,
+        player: '1',
+        from: ` ${i}`,
+        
+        to: `${i+1}`,
+      });
+    }
+    return (
+      <div style = {{width: 300}}>
+        <Table columns={columns} dataSource={data} pagination={{ pageSize: 20 }} scroll={{ y: 240 }} />
+      </div>
+    )
+  }
+}
+
+
+
+
+          

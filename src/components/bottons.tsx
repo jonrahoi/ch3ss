@@ -4,15 +4,15 @@ export default class PlayerInfo extends React.Component{
     public render(){
         
         return (
-            <div className = "buttons">
-                <div className = "control">
+            <div>
+                <div>
                     <button>Preset</button>
                     <button>Start</button>
                     <button>Twist</button>
                     <button>Spin</button>
                     <button>Rotest</button>
                 </div>
-                <div className = "new">
+                <div>
                     <button>New</button>
                 </div>
             </div>
