@@ -6,11 +6,9 @@ export default class PlayerInfo extends React.Component{
         return (
             <div>
                 <div>
-                    <button>Preset</button>
-                    <button>Start</button>
-                    <button>Twist</button>
-                    <button>Spin</button>
-                    <button>Rotest</button>
+                    <button>Black Version</button>
+                    <button>White Version</button>
+                    
                 </div>
                 <div>
                     <button>New</button>

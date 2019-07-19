@@ -42,3 +42,56 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+ list of methods to use
+ game1: new Game(1);
+
+********  moving: ***********
+if (game1.isValidSpaceFromString(space from user input from textbox)) && game1.isValidSpaceFromString(space from user input from textbox))  {
+  boolean value if move executed = game1.move(game1.getPositionFromString(input1), game1.getPositionFromString(input2));
+}
+if (boolean = false) {
+  message to user "move invalid"
+}
+if (boolean = true) {
+  if (game.getCheckMat()) {
+    message to users : "checkmate, Player (whoever's turn it is wins)"
+  }
+  else if (game.getStalemate()) {
+    message to users : "checkmate, Player (whoever's turn it is wins)"
+  }
+  else if (game.getCheck()) {
+    message to users: "Check"
+  }
+}
+
+******* getPossibleMoves for piece at space **********
+get space from user text box
+make sure it is a valid space
+if (isValidSpaceFromString)
+list of moves = game.getPossibleMovesForPieceAtSpace(input)
+
+
+****** whoseTurnItIs *************
+string for black or white = game.getWhoseTurnItIs();
+
+
+******** move history *************
+moves = game.getMoveHistory();
+for (var i = 0; i < moveHistory.length; i++) {
+  string space = moves[i].getPositionString();
+  if (i % 4 == 0) {
+    space A White
+  }
+  if (i % 4 == 1) {
+    space B White
+  }
+  if (i % 4 == 2) {
+    space A Black
+  }
+  if (i % 4 == 3) {
+    space B Black
+  }
+
+}

@@ -27,8 +27,8 @@ class NumericInput extends React.Component<{onChange: any, value: any, onBlur?: 
   onChange = (e: any) => {
     const { value } = e.target;
     //const reg = /^([1-5])(\,[1-5])$/;
-    //const reg = /[12345][12345][12345]/;
-    const reg = /^-?(0|[1-9][0-9]*)(\,[1-5]*)?$/;
+    const reg = /^[1-5]{0,3}$$/;
+    //const reg = /^-?(0|[1-9][0-9]*)(\,[1-5]*)?$/;
     if (( reg.test(value)) || value === '' || value === '-') {
       this.props.onChange(value);
     }

@@ -3,6 +3,9 @@
 
 } */
 
+/* .element {
+  background-image: url('src/background.svg');
+} */
 #home {
     clip-path: url(#cache);
   }

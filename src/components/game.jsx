@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import * as THREE from 'three';
+import possibleMove from './possibleMove';
 //TODO: add OrbitControls
 
-export default class Game extends Component {
+
+export default class Game extends Component{
+    constructor() {
+        super();
+        this.state = {
+
+        }
+    }
+    //const {a} = this.props
     componentDidMount() {
         // === THREE.JS CODE START ===
         var scene = new THREE.Scene();
@@ -218,6 +227,9 @@ export default class Game extends Component {
     }
     
     render() {
+        let {possibleMove} = this.props;
+        console.log(possibleMove+'in game');
+        
         return (
           <div ref={ref => (this.mount = ref)} />
         )

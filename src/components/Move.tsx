@@ -1,17 +1,18 @@
 import * as React from 'react';
 //import { Game } from '@rahoi/ch3ss_logic'
-import ILocation from '../interfaces/Location';
+import Possition from '../interfaces/Location';
 //import Position from '@rahoi/ch3ss_logic/src/Piece'
 
 interface IState { 
-  From: ILocation, 
-  To: ILocation 
+  From: Possition, 
+  To: Possition 
 }
 
 interface IProps {
   move: any
-  addStep: any
-  test: any
+  possible: any
+  //addStep: any
+  //test: any
   //possibleMove?: any
 }
 
@@ -37,6 +38,19 @@ export default class Move extends React.Component<IProps, IState>{
     
       public handleChangeFrom(event: { target: { value: any; }; }) {
         this.setState({From: event.target.value});
+        //console.log(event.target.value.);
+        //console.log(typeof(event.target.value));
+        var a: string = event.target.value
+        console.log(a+"  "+a.length);
+        
+        if (a.length == 3) {
+          this.props.possible();
+          
+        }
+        
+        //this.props.possible
+        console.log(this.state.From);
+        
       }
 
       public handleChangeTo(event: { target: { value: any; }; }) {
@@ -51,13 +65,12 @@ export default class Move extends React.Component<IProps, IState>{
       }
 
       movePiece = () => {
-        let {move, addStep, test} = this.props
+        let {move, possible} = this.props
         let {From, To} = this.state
         console.log("movePiece in move");
         
         move(From, To)
-        addStep()
-        test()
+        
       }
     
       public render() {
