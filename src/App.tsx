@@ -86,7 +86,7 @@ class App extends React.Component {
     liveGame: new Game(1),
     step: 0,
     possibleMoves: [
-      '1, 1, 1',
+      '111',
       '222',
       '333',
       '444'
@@ -122,19 +122,25 @@ class App extends React.Component {
   // }
   
   move = (from:Location, to:Location) => {
+    console.log("move in app");
+    
     let {liveGame} = this.state
     //liveGame.newGame();
     //let moveCompleted = liveGame.m;
     //const space = new Position(1, 2, 1);
-    liveGame.move(liveGame.getPositionFromString("111"), liveGame.getPositionFromString("121"));
-    let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString("111"));
-    console.log("possible in app move"+possiblePossitions);
+    //liveGame.move(liveGame.getPositionFromString("111"), liveGame.getPositionFromString("121"));
+    let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString("112"));
+    //console.log("possible in app move: "+liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString("121")));
     
-    //let possibleSpaceStringArray: string[] = [];
-    // for (let i = 0; i < possiblePossitions.length; i++){
-    //   possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
-    // }
-    console.log("bbb");
+    let possibleSpaceStringArray: string[] = [];
+    for (let i = 0; i < possiblePossitions.length; i++){
+      possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
+    }
+    console.log("possible update in app move: "+possibleSpaceStringArray);
+    console.log("Possible in app before set: "+this.state.possibleMoves);
+    this.setState({possibleMoves: possibleSpaceStringArray})
+    console.log("Possible in app after set: "+this.state.possibleMoves);
+    
     
     //console.log(possibleSpaceStringArray);
     
@@ -156,6 +162,14 @@ class App extends React.Component {
 
   possible = () => {
     let {liveGame} = this.state
+    let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString("112"));
+    let possibleSpaceStringArray: string[] = [];
+    for (let i = 0; i < possiblePossitions.length; i++){
+      possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
+    }
+    this.setState({possibleMoves: possibleSpaceStringArray})
+
+
     // let space = new Position;
     // let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(space);
     // let possibleSpaceStringArray: string[] = []
@@ -164,7 +178,6 @@ class App extends React.Component {
     // }
     // let possibleMoves = liveGame.getPositionFromString
     // this.setState({possibleMoves: possibleMoves})
-    console.log('kkkk');
     
   }
 
