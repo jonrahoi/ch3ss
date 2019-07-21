@@ -11,6 +11,7 @@ interface IState {
 interface IProps {
   move: any
   possible: any
+  history: any
   //addStep: any
   //test: any
   //possibleMove?: any
@@ -45,6 +46,7 @@ export default class Move extends React.Component<IProps, IState>{
         
         if (a.length == 3) {
           this.props.possible();
+          this.props.history();
           
         }
         

@@ -149,14 +149,15 @@ class App extends React.Component {
     
   }
 
-  // getHistory = () => {
-  //   let {liveGame} = this.state;
-  //   let histories= liveGame.getMoveHistory();
-  //   let history: Position[] = [];
-  //   for (let i = 0; i < histories.length; i++) {
-  //     history.push(histories[i].getPostionString());
-  //   }
-  // }
+  getHistory = () => {
+    let {liveGame} = this.state;
+    let histories= liveGame.getMoveHistory();
+    let history:string[] = [];
+    for (let i = 0; i < histories.length; i++) {
+      history.push(histories[i].getPostionString());
+    }
+    this.setState({history: history})
+  }
 
   
 
@@ -216,7 +217,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <PlayerInfo game={this.state.liveGame} step = {this.state.step}/>        
-        <Move move = {this.move.bind(this)} possible = {this.possible.bind(this)} />
+        <Move move = {this.move.bind(this)} possible = {this.possible.bind(this)} history = {this.getHistory.bind(this)}/>
         <Buttons />
         <PossibleMove possibleMoves = {this.state.possibleMoves} liveGame = {this.state.liveGame} possible = {this.possible.bind(this)}/>
         <History history = {this.state.history}/>
