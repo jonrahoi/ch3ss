@@ -28,8 +28,11 @@ const MoveItem = (props: any): any => {
 }
 
 function ReptileListItems(props: any) {
+    //let {possibleMoves} = this.this.props
+    
     const reptiles = props.possibleMoves;
     //const possibleMoves =
+    
     return reptiles.map((reptile: React.ReactNode) => (
         <a className="dropdown-item" href="#">
             {reptile}

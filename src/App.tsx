@@ -13,6 +13,7 @@ import PossibleMove from './components/possibleMove'
 import What from './test/what'
 import GGame from './components/game'
 import possibleMove from './components/possibleMove';
+import { string } from 'prop-types';
 //import { Position } from '@rahoi/ch3ss_logic/src/Piece';
 
 
@@ -81,25 +82,24 @@ for (var i = 0; i < moveHistory.length; i++) {
 class App extends React.Component {
   //pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace
   state = {
-    //liveGame: new Game(),
-    //liveGame: this.newGame(),
     liveGame: new Game(1),
     step: 0,
     possibleMoves: [
-      '111',
-      '222',
-      '333',
-      '444'
+      ''
     ],
     //possibleMoves: liveGame.,
-    //getwhosturn   return black or white
+    //whosTurn: string,   //return black or white
     player: 'black',
     //thereischeck, checkmate,stalmate
-    
+
     history: 'history',
-    selectedPiece:'',
+    
+    // Give to threejs
+    pieces: [],
+    spaces: [],
+    selectedPiece: '',
     selectedSpace: '',
-    pieces:[]
+    setSelectedSpace: ''
   }
 
   // setSelectedPiece(){
@@ -107,11 +107,11 @@ class App extends React.Component {
   // }
 
 
-  newGame(){
+  newGame() {
     this.setState({
       //liveGame: new Game(1)
       liveGame: this.newGame()
-      
+
     })
   }
 
@@ -120,55 +120,80 @@ class App extends React.Component {
   //   let player = liveGame.getWhoseTurnItIs
   //   this.setState({player: player})
   // }
-  
-  move = (from:Location, to:Location) => {
-    console.log("move in app");
-    
-    let {liveGame} = this.state
-    //liveGame.newGame();
-    //let moveCompleted = liveGame.m;
-    //const space = new Position(1, 2, 1);
-    //liveGame.move(liveGame.getPositionFromString("111"), liveGame.getPositionFromString("121"));
-    let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString("112"));
-    //console.log("possible in app move: "+liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString("121")));
-    
-    let possibleSpaceStringArray: string[] = [];
-    for (let i = 0; i < possiblePossitions.length; i++){
-      possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
+
+  move = (from: number, to: number) => {
+    let { liveGame } = this.state
+    let player: string = liveGame.getWhoseTurnItIs();
+    let flag: boolean = false;
+    flag = liveGame.move(liveGame.getPositionFromString(String(from)), liveGame.getPositionFromString(String(to)))
+    if (!flag) {
+      alert("Move Invalid")
     }
-    console.log("possible update in app move: "+possibleSpaceStringArray);
-    console.log("Possible in app before set: "+this.state.possibleMoves);
-    this.setState({possibleMoves: possibleSpaceStringArray})
-    console.log("Possible in app after set: "+this.state.possibleMoves);
-    
-    
-    //console.log(possibleSpaceStringArray);
-    
-    this.setState({liveGame: liveGame})
+    else {
+      if (liveGame.getCheckMate) {
+        alert("Checkmate, Player: " + player)
+      }
+      else if (liveGame.getStaleMate) {
+        alert("Checkmate, Player: " + player)
+      }
+      else if (liveGame.getCheck) {
+        alert("Check!")
+      }
+    }
+    this.setState({ liveGame: liveGame })
     console.log("move in app");
-    
+
   }
 
   getHistory = () => {
-    let {liveGame} = this.state;
-    let histories= liveGame.getMoveHistory();
-    let history:string[] = [];
+    let { liveGame } = this.state;
+    let histories = liveGame.getMoveHistory();
+    let history: string[] = [];
+
     for (let i = 0; i < histories.length; i++) {
       history.push(histories[i].getPostionString());
     }
-    this.setState({history: history})
+    console.log("history in app" + history);
+
+    this.setState({ history: history })
   }
 
-  
 
-  possible = () => {
-    let {liveGame} = this.state
-    let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString("112"));
-    let possibleSpaceStringArray: string[] = [];
-    for (let i = 0; i < possiblePossitions.length; i++){
-      possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
+
+  possible = (from: string) => {
+    console.log("type in app:" + typeof (from));
+
+    let { liveGame } = this.state
+    //let test: string = ""+from+""
+    //console.log("Test from string in app: "+test);
+    //console.log("From string in app: "+from.toString());
+    console.log("from value in app" + from);
+    console.log("type of from in app" + typeof (from));
+    if (from === '111') {
+      console.log('nmd');
+
     }
-    this.setState({possibleMoves: possibleSpaceStringArray})
+
+
+    let a: string = from
+    let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString(from));
+    let possibleSpaceStringArray: string[] = [];
+    console.log("possitions type" + typeof (possiblePossitions));
+    if (liveGame.validSpace(liveGame.getPositionFromString(from))) {
+      if (possiblePossitions.length === undefined) {
+        console.log("pipipipi");
+
+        return;
+      }
+      for (let i = 0; i < possiblePossitions.length; i++) {
+        possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
+      }
+    }
+    else {
+      alert('Check your input')
+    }
+    this.setState({ possibleMoves: possibleSpaceStringArray })
+
 
 
     // let space = new Position;
@@ -179,7 +204,7 @@ class App extends React.Component {
     // }
     // let possibleMoves = liveGame.getPositionFromString
     // this.setState({possibleMoves: possibleMoves})
-    
+
   }
 
   // possibleMoves = () => {
@@ -199,30 +224,30 @@ class App extends React.Component {
   //   this.setState({step: step})
   //   console.log("test");
   //   console.log(step);
-    
-    
+
+
   // }
 
   test = () => {
     // let {count} = this.state
     // count++
     // this.setState({count: count})
-    
-    
+
+
     // console.log("addCount"+count);
-    
+
   }
-  
+
   public render() {
     return (
       <div className="App">
-        <PlayerInfo game={this.state.liveGame} step = {this.state.step}/>        
-        <Move move = {this.move.bind(this)} possible = {this.possible.bind(this)} history = {this.getHistory.bind(this)}/>
+        <PlayerInfo game={this.state.liveGame} step={this.state.step} />
+        <Move move={this.move.bind(this)} possible={this.possible.bind(this)} history={this.getHistory.bind(this)} />
         <Buttons />
-        <PossibleMove possibleMoves = {this.state.possibleMoves} liveGame = {this.state.liveGame} possible = {this.possible.bind(this)}/>
-        <History history = {this.state.history}/>
+        <PossibleMove possibleMoves={this.state.possibleMoves} liveGame={this.state.liveGame} possible={this.possible.bind(this)} />
+        <History history={this.state.history} />
         <What />
-        <GGame possibleMove = {this.state.possibleMoves} pieces = {this.state.pieces}/>
+        {/* <GGame possibleMove = {this.state.possibleMoves} pieces = {this.state.pieces}/> */}
       </div>
     );
   }

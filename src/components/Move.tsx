@@ -1,11 +1,11 @@
 import * as React from 'react';
 //import { Game } from '@rahoi/ch3ss_logic'
-import Possition from '../interfaces/Location';
+//import Possition from '../interfaces/Location';
 //import Position from '@rahoi/ch3ss_logic/src/Piece'
 
 interface IState { 
-  From: Possition, 
-  To: Possition 
+  From: string, 
+  To: string 
 }
 
 interface IProps {
@@ -21,16 +21,8 @@ export default class Move extends React.Component<IProps, IState>{
     constructor(props: any) {
         super(props);
         this.state = {
-          From: {
-            x: 0,
-            y: 0,
-            z: 0
-          },
-          To: {
-            x: 0,
-            y: 0,
-            z: 0
-          }
+          From: '',
+          To: ''
         };
         this.handleChangeFrom = this.handleChangeFrom.bind(this);
         this.handleChangeTo = this.handleChangeTo.bind(this);
@@ -39,19 +31,21 @@ export default class Move extends React.Component<IProps, IState>{
     
       public handleChangeFrom(event: { target: { value: any; }; }) {
         this.setState({From: event.target.value});
-        //console.log(event.target.value.);
-        //console.log(typeof(event.target.value));
         var a: string = event.target.value
-        console.log(a+"  "+a.length);
+        //console.log(a+"  "+a.length);
+        //console.log(typeof(this.state.From));
+        
+        //console.log("movePiece in move");
+        //console.log("type in move: " + typeof(this.state.From));
         
         if (a.length == 3) {
-          this.props.possible();
-          this.props.history();
+          this.props.possible(a);
+          //this.props.history();
           
         }
         
         //this.props.possible
-        console.log(this.state.From);
+        //console.log(this.state.From);
         
       }
 
@@ -60,18 +54,27 @@ export default class Move extends React.Component<IProps, IState>{
       }
     
       public handleSubmit(event: { preventDefault: () => void; }) {
-        // console.log(this.state.From);
-        
+        // console.log(this.state.From);        
         // alert('An essay was submitted: ' + this.state.From + ' ' + this.state.To);
+        this.props.move(this.state.From, this.state.To)
+        let after: string = ''
+        this.setState({From: after})
+        this.setState({From: ''})
+        console.log("after reset From: " + this.state.From);
+        
+        this.setState({To: ''})
         event.preventDefault();
       }
 
       movePiece = () => {
-        let {move, possible} = this.props
+        let {move, history} = this.props
         let {From, To} = this.state
-        console.log("movePiece in move");
         
-        move(From, To)
+        
+        //move(From, To)
+        history()
+        console.log('after use history in move');
+        
         
       }
     
@@ -83,10 +86,10 @@ export default class Move extends React.Component<IProps, IState>{
           <form onSubmit={this.handleSubmit}>
               <div className = "input">
                 From:
-                <input type = "text"  onChange = {this.handleChangeFrom}/>
+                <input type = "text"  value = {this.state.From} onChange = {this.handleChangeFrom}/>
                 {'   '}
                 To:
-                <input type = "text"  onChange = {this.handleChangeTo}/>
+                <input type = "text" value = {this.state.To} onChange = {this.handleChangeTo}/>
                 <input type="submit" value="Move" onClick = {this.movePiece}/>
               </div>
           </form>
