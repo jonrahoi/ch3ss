@@ -110,6 +110,10 @@ class App extends React.Component {
   //   this.setState({})
   // }
 
+  setPieces = () => {
+    let {liveGame} = this.state
+    this.setState({pieces: liveGame.getPieces()})
+  }
 setSelectedPiece = (selectedPiece: string) => {
   this.setState({selectedPiece: selectedPiece})
 }         //this is new function you should tell to Ahamd
@@ -257,7 +261,7 @@ setSelectedPiece = (selectedPiece: string) => {
     return (
       <div className="App">
         <PlayerInfo game={this.state.liveGame} step={this.state.step} player = {this.state.player}/>
-        <Move move={this.move.bind(this)} possible={this.possible.bind(this)} history={this.getHistory.bind(this)} setPlayer = {this.setPlayer.bind(this)}/>
+        <Move move={this.move.bind(this)} possible={this.possible.bind(this)} history={this.getHistory.bind(this)} setPlayer = {this.setPlayer.bind(this)} setPieces = {this.setPieces.bind(this)}/>
         <Buttons />
         <PossibleMove possibleMoves={this.state.possibleMoves} liveGame={this.state.liveGame} possible={this.possible.bind(this)} />
         <History history={this.state.history} liveGame = {this.state.liveGame}/>
