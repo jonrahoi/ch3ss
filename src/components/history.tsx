@@ -8,13 +8,19 @@ import { Table } from 'antd';
 import React, { Component } from 'react'
 
 interface IProps {
-  history: any
+  history: [
+    ''
+  ]
+  liveGame: any
 }
 interface IState {
   history: any
+  liveGame: any
 }
 export default class what extends Component <IState, IProps>{
   render() {
+    let {history} = this.props.history
+    //let {liveGame} = this.state.liveGame
     const columns = [
       {
         title: 'Player',
@@ -33,18 +39,22 @@ export default class what extends Component <IState, IProps>{
       },
       
     ];
+    console.log("history in hitory: " + history);
     
     
-    const data = [];
-    for (let i = 0; i < 100; i++) {
-      data.push({
-        key: i,
-        player: '1',
-        from: ` ${i}`,
+    const data: any = [];
+    // for (let i = 0; i < 100; i++) {
+    //   data.push({
+    //     key: i,
+    //     player: '1',
+    //     from: ` ${i}`,
         
-        to: `${i+1}`,
-      });
-    }
+    //     to: `${i+1}`,
+
+    //   });
+    // }
+    
+    //for (let i = 0; i < hist)
     return (
       <div style = {{width: 300}}>
         <Table columns={columns} dataSource={data} pagination={{ pageSize: 20 }} scroll={{ y: 240 }} />

@@ -89,24 +89,34 @@ class App extends React.Component {
     ],
     //possibleMoves: liveGame.,
     //whosTurn: string,   //return black or white
-    player: 'black',
+    player: 'White',
     //thereischeck, checkmate,stalmate
 
-    history: 'history',
+    history: [
+      ''
+    ],
     
     // Give to threejs
-    pieces: [],
-    spaces: [],
+    pieces: new Game(1).getPieces,   //update at move
+    // spaces: [          here I should just pass the possible move as spaces
+    //   ''
+    // ],
     selectedPiece: '',
-    selectedSpace: '',
-    setSelectedSpace: ''
+    selectedSpace: ''
+    //setSelectedSpace: ''
   }
 
   // setSelectedPiece(){
   //   this.setState({})
   // }
 
+setSelectedPiece = (selectedPiece: string) => {
+  this.setState({selectedPiece: selectedPiece})
+}         //this is new function you should tell to Ahamd
 
+  setSelectedSpace = (selectedPiece: string) => {
+    this.setState({selectedPiece: selectedPiece})
+  }
   newGame() {
     this.setState({
       //liveGame: new Game(1)
@@ -158,7 +168,12 @@ class App extends React.Component {
     this.setState({ history: history })
   }
 
-
+  setPlayer = () => {
+    let {liveGame} = this.state
+    this.setState({player: liveGame.getWhoseTurnItIs()})
+    console.log('whosturn in app: ' + this.state.player);
+    
+  }
 
   possible = (from: string) => {
     console.log("type in app:" + typeof (from));
@@ -241,13 +256,14 @@ class App extends React.Component {
   public render() {
     return (
       <div className="App">
-        <PlayerInfo game={this.state.liveGame} step={this.state.step} />
-        <Move move={this.move.bind(this)} possible={this.possible.bind(this)} history={this.getHistory.bind(this)} />
+        <PlayerInfo game={this.state.liveGame} step={this.state.step} player = {this.state.player}/>
+        <Move move={this.move.bind(this)} possible={this.possible.bind(this)} history={this.getHistory.bind(this)} setPlayer = {this.setPlayer.bind(this)}/>
         <Buttons />
         <PossibleMove possibleMoves={this.state.possibleMoves} liveGame={this.state.liveGame} possible={this.possible.bind(this)} />
-        <History history={this.state.history} />
+        <History history={this.state.history} liveGame = {this.state.liveGame}/>
         <What />
-        {/* <GGame possibleMove = {this.state.possibleMoves} pieces = {this.state.pieces}/> */}
+        {/* pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace setSelectedPiece*/}
+        <GGame spaces = {this.state.possibleMoves} pieces = {this.state.pieces} setSelectedPiece = {this.setSelectedPiece.bind(this)} setSelectedSpace = {this.setSelectedSpace.bind(this)} />
       </div>
     );
   }

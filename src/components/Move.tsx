@@ -12,6 +12,7 @@ interface IProps {
   move: any
   possible: any
   history: any
+  setPlayer: any
   //addStep: any
   //test: any
   //possibleMove?: any
@@ -56,6 +57,7 @@ export default class Move extends React.Component<IProps, IState>{
       public handleSubmit(event: { preventDefault: () => void; }) {
         // console.log(this.state.From);        
         // alert('An essay was submitted: ' + this.state.From + ' ' + this.state.To);
+        let {setPlayer} = this.props
         this.props.move(this.state.From, this.state.To)
         let after: string = ''
         this.setState({From: after})
@@ -63,6 +65,8 @@ export default class Move extends React.Component<IProps, IState>{
         console.log("after reset From: " + this.state.From);
         
         this.setState({To: ''})
+
+        setPlayer()
         event.preventDefault();
       }
 
