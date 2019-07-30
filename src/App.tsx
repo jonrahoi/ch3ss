@@ -112,18 +112,33 @@ class App extends React.Component {
   // }
 
   resetPossibleMove = () => {
-    this.setState({possibleMoves: [
-      ''
-    ]})
+    this.setState({
+      possibleMoves: [
+        ''
+      ]
+    })
     console.log('after reset move: ' + this.state.possibleMoves);
-    
+
   }
-  setCamera = (camera:string) => {
-    this.setState({camera: camera})
+  setCamera = (camera: string) => {
+    this.setState({ camera: camera })
   }
 
   setNewGame = () => {
-    this.setState({liveGame: new Game(1)})
+    this.setState({
+      liveGame: new Game(1),
+      possibleMoves: [
+        ''
+      ],
+      player: 'White',
+      history: [
+        ''
+      ],
+      pieces: new Game(1).getPieces,   //update at move
+      selectedPiece: '',
+      selectedSpace: '',
+      camera: 'white'
+    })
   }
 
   setPieces = () => {
@@ -277,13 +292,13 @@ class App extends React.Component {
     return (
       <div className="App">
         <PlayerInfo game={this.state.liveGame} step={this.state.step} player={this.state.player} />
-        <Move move={this.move.bind(this)} possible={this.possible.bind(this)} history={this.getHistory.bind(this)} setPlayer={this.setPlayer.bind(this)} setPieces={this.setPieces.bind(this)} resetPossibleMove = {this.resetPossibleMove.bind(this)}/>
-        <Buttons setCamera={this.setPlayer.bind(this)} setNewGame={this.setNewGame.bind(this)}/>
+        <Move move={this.move.bind(this)} possible={this.possible.bind(this)} history={this.getHistory.bind(this)} setPlayer={this.setPlayer.bind(this)} setPieces={this.setPieces.bind(this)} resetPossibleMove={this.resetPossibleMove.bind(this)} />
+        <Buttons setCamera={this.setPlayer.bind(this)} setNewGame={this.setNewGame.bind(this)} />
         <PossibleMove possibleMoves={this.state.possibleMoves} liveGame={this.state.liveGame} possible={this.possible.bind(this)} />
         <History history={this.state.history} liveGame={this.state.liveGame} />
         {/* <What /> */}
         {/* pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace setSelectedPiece*/}
-        <GGame spaces={this.state.possibleMoves} pieces={this.state.pieces} setSelectedPiece={this.setSelectedPiece.bind(this)} setSelectedSpace={this.setSelectedSpace.bind(this)} camera = {this.state.camera}/>
+        <GGame spaces={this.state.possibleMoves} pieces={this.state.pieces} setSelectedPiece={this.setSelectedPiece.bind(this)} setSelectedSpace={this.setSelectedSpace.bind(this)} camera={this.state.camera} />
       </div>
     );
   }
