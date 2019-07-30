@@ -45,8 +45,8 @@ export default class PlayerInfo extends React.Component<IProps, IState>{
       flag2 = 'hidden'
     }
     return (
-      <div>
-        <div style = {{display: 'block'}}>
+      <div className = "palyerInfo">
+        <div  style = {{display: 'block'}}>
           <button className="btn btn-info" disabled={true} style = {{display: 'inline'}}>player1</button>
           {/* <svg visibility = {flag1}> */}
           {/* <svg style = {{visibility: 'visible'}}>

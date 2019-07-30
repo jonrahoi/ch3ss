@@ -1,17 +1,22 @@
 import * as React from 'react';
 
-export default class PlayerInfo extends React.Component{
+export default class Buttons extends React.Component{
     public render(){
         
         return (
             <div>
-                <div>
+                <div className = "version">
                     <button>Black Version</button>
                     <button>White Version</button>
                     
                 </div>
-                <div>
-                    <button>New</button>
+
+                <div className = "newGame">
+                    <button>New Game</button>
+                </div>
+
+                <div className = "rules">
+                    <button>Rules</button>
                 </div>
             </div>
             

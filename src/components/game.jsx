@@ -231,7 +231,7 @@ export default class Game extends Component{
         console.log(possibleMove+'in game');
         
         return (
-          <div ref={ref => (this.mount = ref)} />
+          <div className = "gamePlay" ref={ref => (this.mount = ref)} />
         )
     }
 

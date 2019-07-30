@@ -265,7 +265,7 @@ setSelectedPiece = (selectedPiece: string) => {
         <Buttons />
         <PossibleMove possibleMoves={this.state.possibleMoves} liveGame={this.state.liveGame} possible={this.possible.bind(this)} />
         <History history={this.state.history} liveGame = {this.state.liveGame}/>
-        <What />
+        {/* <What /> */}
         {/* pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace setSelectedPiece*/}
         <GGame spaces = {this.state.possibleMoves} pieces = {this.state.pieces} setSelectedPiece = {this.setSelectedPiece.bind(this)} setSelectedSpace = {this.setSelectedSpace.bind(this)} />
       </div>

@@ -72,3 +72,55 @@
     position: fixed;
     top: 10%
   } */
+  .gamePlay {
+    position: fixed;
+    top: 8%
+  }
+  
+  .input {
+    position: fixed;
+    top: 5%;
+    left: 40%;
+    /* z-index: 9999999%; */
+  }
+
+  .history {
+    position: fixed;
+    top: 40%;
+    z-index: 999
+  }
+
+  .dropdown {
+    position: fixed;
+    top: 5%;
+    left: 80%;
+    float: left;
+    z-index: 9999;
+  }
+
+  .palyerInfo {
+    position: fixed;
+    
+    z-index: 999999;
+  }
+
+  .version {
+    position: fixed;
+    z-index: 9999999;
+    left: 45%;
+    top: 97%
+  }
+
+  .newGame {
+    position: fixed;
+    left: 80%;
+    top: 20%;
+    z-index: 9999999;
+  }
+
+  .rules {
+    position: fixed;
+    left: 80%;
+    top: 23%;
+    z-index: 9999999;
+  }

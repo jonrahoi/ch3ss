@@ -56,7 +56,7 @@ export default class what extends Component <IState, IProps>{
     
     //for (let i = 0; i < hist)
     return (
-      <div style = {{width: 300}}>
+      <div className = "history" style = {{width: 300}}>
         <Table columns={columns} dataSource={data} pagination={{ pageSize: 20 }} scroll={{ y: 240 }} />
       </div>
     )
