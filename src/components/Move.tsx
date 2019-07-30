@@ -14,6 +14,7 @@ interface IProps {
   history: any
   setPlayer: any
   setPieces: any
+  resetPossibleMove: any
   //addStep: any
   //test: any
   //possibleMove?: any
@@ -58,12 +59,12 @@ export default class Move extends React.Component<IProps, IState>{
       public handleSubmit(event: { preventDefault: () => void; }) {
         // console.log(this.state.From);        
         // alert('An essay was submitted: ' + this.state.From + ' ' + this.state.To);
-        let {setPlayer, setPieces} = this.props
+        let {setPlayer, setPieces, resetPossibleMove} = this.props
         this.props.move(this.state.From, this.state.To)
         let after: string = ''
         this.setState({From: after})
         this.setState({From: ''})
-        
+        resetPossibleMove()
         console.log("after reset From: " + this.state.From);
         
         this.setState({To: ''})
@@ -73,12 +74,13 @@ export default class Move extends React.Component<IProps, IState>{
       }
 
       movePiece = () => {
-        let {move, history} = this.props
+        let {move, history, resetPossibleMove} = this.props
         let {From, To} = this.state
         
         
         //move(From, To)
         history()
+        resetPossibleMove()
         console.log('after use history in move');
         
         

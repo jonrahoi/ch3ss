@@ -86,6 +86,7 @@
 
   .history {
     position: fixed;
+    left: 1%;
     top: 40%;
     z-index: 999
   }
@@ -95,23 +96,23 @@
     top: 5%;
     left: 80%;
     float: left;
-    z-index: 9999;
+    z-index: 2;
   }
 
   .palyerInfo {
     position: fixed;
-    
-    z-index: 999999;
+    left: 1%;
+    z-index: 3;
   }
 
   .version {
     position: fixed;
-    z-index: 9999999;
+    z-index: 2;
     left: 45%;
     top: 97%
   }
 
-  .newGame {
+  /* .newGame {
     position: fixed;
     left: 80%;
     top: 20%;
@@ -123,4 +124,35 @@
     left: 80%;
     top: 23%;
     z-index: 9999999;
+  } */
+
+  .bu {
+    position: fixed;
+    left: 80%;
+    top: 23%;
+    z-index: 2;
   }
+
+  .rules {
+    position: fixed;
+    z-index: 99999999999999999999999999999999999999999999;
+  }
+  
+  /* .body {
+    background-image: url("./img/4f1eae6b34ef4bfd5d5eb0245def29b5.jpg") 
+    background-color: cornflowerblue;
+    position: fixed;
+    
+  
+  }
+
+  :root {
+    background-color: cornflowerblue
+  } */
+
+  /* .all {
+    background-color: cornflowerblue;
+
+  } */
+
+  

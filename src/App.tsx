@@ -95,14 +95,15 @@ class App extends React.Component {
     history: [
       ''
     ],
-    
+
     // Give to threejs
     pieces: new Game(1).getPieces,   //update at move
     // spaces: [          here I should just pass the possible move as spaces
     //   ''
     // ],
     selectedPiece: '',
-    selectedSpace: ''
+    selectedSpace: '',
+    camera: 'white'
     //setSelectedSpace: ''
   }
 
@@ -110,16 +111,31 @@ class App extends React.Component {
   //   this.setState({})
   // }
 
-  setPieces = () => {
-    let {liveGame} = this.state
-    this.setState({pieces: liveGame.getPieces()})
+  resetPossibleMove = () => {
+    this.setState({possibleMoves: [
+      ''
+    ]})
+    console.log('after reset move: ' + this.state.possibleMoves);
+    
   }
-setSelectedPiece = (selectedPiece: string) => {
-  this.setState({selectedPiece: selectedPiece})
-}         //this is new function you should tell to Ahamd
+  setCamera = (camera:string) => {
+    this.setState({camera: camera})
+  }
+
+  setNewGame = () => {
+    this.setState({liveGame: new Game(1)})
+  }
+
+  setPieces = () => {
+    let { liveGame } = this.state
+    this.setState({ pieces: liveGame.getPieces() })
+  }
+  setSelectedPiece = (selectedPiece: string) => {
+    this.setState({ selectedPiece: selectedPiece })
+  }         //this is new function you should tell to Ahamd
 
   setSelectedSpace = (selectedPiece: string) => {
-    this.setState({selectedPiece: selectedPiece})
+    this.setState({ selectedPiece: selectedPiece })
   }
   newGame() {
     this.setState({
@@ -173,10 +189,10 @@ setSelectedPiece = (selectedPiece: string) => {
   }
 
   setPlayer = () => {
-    let {liveGame} = this.state
-    this.setState({player: liveGame.getWhoseTurnItIs()})
+    let { liveGame } = this.state
+    this.setState({ player: liveGame.getWhoseTurnItIs() })
     console.log('whosturn in app: ' + this.state.player);
-    
+
   }
 
   possible = (from: string) => {
@@ -260,14 +276,14 @@ setSelectedPiece = (selectedPiece: string) => {
   public render() {
     return (
       <div className="App">
-        <PlayerInfo game={this.state.liveGame} step={this.state.step} player = {this.state.player}/>
-        <Move move={this.move.bind(this)} possible={this.possible.bind(this)} history={this.getHistory.bind(this)} setPlayer = {this.setPlayer.bind(this)} setPieces = {this.setPieces.bind(this)}/>
-        <Buttons />
+        <PlayerInfo game={this.state.liveGame} step={this.state.step} player={this.state.player} />
+        <Move move={this.move.bind(this)} possible={this.possible.bind(this)} history={this.getHistory.bind(this)} setPlayer={this.setPlayer.bind(this)} setPieces={this.setPieces.bind(this)} resetPossibleMove = {this.resetPossibleMove.bind(this)}/>
+        <Buttons setCamera={this.setPlayer.bind(this)} setNewGame={this.setNewGame.bind(this)}/>
         <PossibleMove possibleMoves={this.state.possibleMoves} liveGame={this.state.liveGame} possible={this.possible.bind(this)} />
-        <History history={this.state.history} liveGame = {this.state.liveGame}/>
+        <History history={this.state.history} liveGame={this.state.liveGame} />
         {/* <What /> */}
         {/* pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace setSelectedPiece*/}
-        <GGame spaces = {this.state.possibleMoves} pieces = {this.state.pieces} setSelectedPiece = {this.setSelectedPiece.bind(this)} setSelectedSpace = {this.setSelectedSpace.bind(this)} />
+        <GGame spaces={this.state.possibleMoves} pieces={this.state.pieces} setSelectedPiece={this.setSelectedPiece.bind(this)} setSelectedSpace={this.setSelectedSpace.bind(this)} camera = {this.state.camera}/>
       </div>
     );
   }

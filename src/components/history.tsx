@@ -41,6 +41,8 @@ export default class what extends Component <IState, IProps>{
     ];
     console.log("history in hitory: " + history);
     
+    let num: number
+    
     
     const data: any = [];
     // for (let i = 0; i < 100; i++) {
