@@ -1,16 +1,4 @@
 import * as React from 'react';
-//import imgURL from '../src/img/64-647866_file-emoji-u1f448-svg-pointing-finger-emoji-png.png';
-//import {Game} from '@rahoi/ch3ss_logic'
-
-// interface IUser {
-//     name?: string
-// }
-
-// interface MyComponentProps { 
-//     game: Game, 
-//     createGame: ()=>void 
-// }
-// interface MyComponentState { user :  IUser }
 
 interface IState {
 
@@ -25,7 +13,6 @@ interface IProps {
 
 export default class PlayerInfo extends React.Component<IProps, IState>{
   public render() {
-    // let {game, createGame} = this.props;
     let {player} = this.props
     let flag1: string
     let flag2: string

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Drawer, Button } from 'antd';
-import ReactDOM from 'react-dom';
+//import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import '../index.css';
 
@@ -56,12 +56,10 @@ export default class Buttons extends React.Component<IProps, IState>{
                 <div className="version">
                     <button onClick={this.clickOnBlack}>Black Version</button>
                     <button onClick={this.clickOnWhite}>White Version</button>
-
                 </div>
 
                 <div className="newGame" >
                     <Button onClick={this.clickOnNewGame} type="primary">New Game</Button>
-
                 </div>
                 <p> </p>
                 <div className="rules">
@@ -92,7 +90,6 @@ export default class Buttons extends React.Component<IProps, IState>{
 
                 <div className = "Resignation" >
                     <Button type="primary" onClick = {this.clickOnResignation}>Resignation</Button>
-
                 </div>
             </div>
 

@@ -96,7 +96,7 @@
     top: 5%;
     left: 80%;
     float: left;
-    z-index: 2;
+    z-index: 99;
   }
 
   .palyerInfo {

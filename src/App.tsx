@@ -6,98 +6,27 @@ import Move from './components/Move';
 import Buttons from './components/bottons';
 import { Game } from '@rahoi/ch3ss_logic'
 import PossibleMove from './components/possibleMove'
-import What from './test/what'
 import GGame from './components/game'
-import possibleMove from './components/possibleMove';
-import { string } from 'prop-types';
-
-
-// list of methods to use
-// game1: new Game(1);
-/* 
-********  moving: ***********
-if (game1.isValidSpaceFromString(space from user input from textbox)) && game1.isValidSpaceFromString(space from user input from textbox))  {
-  boolean value if move executed = game1.move(game1.getPositionFromString(input1), game1.getPositionFromString(input2));
-}
-if (boolean = false) {
-  message to user "move invalid"
-}
-if (boolean = true) {
-  if (game.getCheckMat()) {
-    message to users : "checkmate, Player (whoever's turn it is wins)"
-  }
-  else if (game.getStalemate()) {
-    message to users : "checkmate, Player (whoever's turn it is wins)"
-  }
-  else if (game.getCheck()) {
-    message to users: "Check"
-  }
-}
-
-******* getPossibleMoves for piece at space **********
-get space from user text box
-make sure it is a valid space
-if (isValidSpaceFromString)
-list of moves = game.getPossibleMovesForPieceAtSpace(input)
-
-
-****** whoseTurnItIs *************
-string for black or white = game.getWhoseTurnItIs();
-
-
-******** move history *************
-moves = game.getMoveHistory();
-for (var i = 0; i < moveHistory.length; i++) {
-  string space = moves[i].getPositionString();
-  if (i % 4 == 0) {
-    space A White
-  }
-  if (i % 4 == 1) {
-    space B White
-  }
-  if (i % 4 == 2) {
-    space A Black
-  }
-  if (i % 4 == 3) {
-    space B Black
-  }
-
-}
-*/
-
 
 
 class App extends React.Component {
-  //pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace
   state = {
     liveGame: new Game(1),
     step: 0,
     possibleMoves: [
       ''
     ],
-    //possibleMoves: liveGame.,
-    //whosTurn: string,   //return black or white
     player: 'White',
-    //thereischeck, checkmate,stalmate
-
     history: [
       ''
     ],
 
     // Give to threejs
     pieces: new Game(1).getPieces,   //update at move
-    // spaces: [          here I should just pass the possible move as spaces
-    //   ''
-    // ],
     selectedPiece: '',
     selectedSpace: '',
     camera: 'white'
-    //setSelectedSpace: ''
   }
-
-  // setSelectedPiece(){
-  //   this.setState({})
-  // }
 
   resetPossibleMove = () => {
     this.setState({
@@ -140,19 +69,6 @@ class App extends React.Component {
   setSelectedSpace = (selectedPiece: string) => {
     this.setState({ selectedPiece: selectedPiece })
   }
-  // newGame() {
-  //   this.setState({
-  //     //liveGame: new Game(1)
-  //     liveGame: this.newGame()
-
-  //   })
-  // }
-
-  // whoseTurn = () => {
-  //   let {liveGame} = this.state
-  //   let player = liveGame.getWhoseTurnItIs
-  //   this.setState({player: player})
-  // }
 
   move = (from: number, to: number) => {
     let { liveGame } = this.state
@@ -175,26 +91,15 @@ class App extends React.Component {
       }
     }
     this.setState({ liveGame: liveGame })
-    console.log("move in app");
-
-  }
+    }
 
   getHistory = () => {
     let { liveGame } = this.state;
     let histories = liveGame.getMoveHistory();
     let history: string[] = [];
-    console.log("history length#####################: "+histories.length);
-    console.log(histories);
-    
     for (let i = 0; i < histories.length; i++) {
       history.push(histories[i].getPostionString());
-      console.log(histories[i].getPostionString());
-      console.log("history value in app loop: "+history);
-      
-      
     }
-    console.log("history in app" + history);
-
     this.setState({ history: history })
   }
 
@@ -209,86 +114,25 @@ class App extends React.Component {
     console.log("type in app:" + typeof (from));
 
     let { liveGame } = this.state
-    //let test: string = ""+from+""
-    //console.log("Test from string in app: "+test);
-    //console.log("From string in app: "+from.toString());
     console.log("from value in app" + from);
     console.log("type of from in app" + typeof (from));
-    if (from === '111') {
-      console.log('nmd');
-
-    }
-
 
     let a: string = from
     
     let possibleSpaceStringArray: string[] = [];
-    //console.log("possitions type" + typeof (possiblePossitions));
     console.log("user input from in app: " + from);
     console.log("in app possible boolean"+liveGame.validSpace(liveGame.getPositionFromString(from)));
     
     if (liveGame.validSpace(liveGame.getPositionFromString(from))) {
-      // if (possiblePossitions.length == 0) {
-      //   console.log("pipipipi");
-
-      //   return;
-      // }
-      let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString(from));
-      console.log("poss in app: " + possiblePossitions);
-      
+      let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString(from));      
       for (let i = 0; i < possiblePossitions.length; i++) {
-        console.log(possiblePossitions[i].getPostionString());
-        
-        //possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
+        possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
       }
     }
     else {
       alert('Check your input')
     }
     this.setState({ possibleMoves: possibleSpaceStringArray })
-
-
-
-    // let space = new Position;
-    // let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(space);
-    // let possibleSpaceStringArray: string[] = []
-    // for(let i = 0; i < possiblePossitions.length; i++) {
-    //   possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
-    // }
-    // let possibleMoves = liveGame.getPositionFromString
-    // this.setState({possibleMoves: possibleMoves})
-
-  }
-
-  // possibleMoves = () => {
-  //   //I give you a location, please give me an array of string
-
-  //   let moves = [
-  //     '111',
-  //     '222',
-  //     '333'
-  //   ]
-  //   this.setState({possibleMoves: moves})
-  // }
-
-  // addStep= () => {
-  //   let {step} = this.state
-  //   step++
-  //   this.setState({step: step})
-  //   console.log("test");
-  //   console.log(step);
-
-
-  // }
-
-  test = () => {
-    // let {count} = this.state
-    // count++
-    // this.setState({count: count})
-
-
-    // console.log("addCount"+count);
-
   }
 
   public render() {

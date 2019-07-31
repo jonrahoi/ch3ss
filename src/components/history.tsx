@@ -1,6 +1,4 @@
 
-//import React from 'react';
-import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import '../index.css';
 import { Table } from 'antd';
@@ -20,7 +18,6 @@ interface IState {
 export default class what extends Component <IState, IProps>{
   render() {
     let {history} = this.props
-    //let {liveGame} = this.state.liveGame
     const columns = [
       {
         title: 'Player',
@@ -44,17 +41,7 @@ export default class what extends Component <IState, IProps>{
     let num: number
     
     
-    const data: any = [];
-    // for (let i = 0; i < 100; i++) {
-    //   data.push({
-    //     key: i,
-    //     player: '1',
-    //     from: ` ${i}`,
-        
-    //     to: `${i+1}`,
-
-    //   });
-    // }
+    const data: any = []
     
     for (let i = 0; i < history.length; i = i+2) {
       if(i % 4 == 0) {
