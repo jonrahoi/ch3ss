@@ -4,24 +4,12 @@ import History from './components/history';
 import PlayerInfo from './components/playerInfo';
 import Move from './components/Move';
 import Buttons from './components/bottons';
-//import Ch3ss from './components/ch3ss';
-import Location from './interfaces/Location'
 import { Game } from '@rahoi/ch3ss_logic'
 import PossibleMove from './components/possibleMove'
-// import {Button} from 'antd'
-// import 'antd/dist/antd.css';
 import What from './test/what'
 import GGame from './components/game'
 import possibleMove from './components/possibleMove';
 import { string } from 'prop-types';
-//import { Position } from '@rahoi/ch3ss_logic/src/Piece';
-
-
-//看一下怎么用textarea显示一个string array
-//movehisory显示移动历史
-//两个玩家相互高亮显示
-//possibleMove  = game.getPossibleMovesSpace
-//
 
 
 // list of methods to use
@@ -152,13 +140,13 @@ class App extends React.Component {
   setSelectedSpace = (selectedPiece: string) => {
     this.setState({ selectedPiece: selectedPiece })
   }
-  newGame() {
-    this.setState({
-      //liveGame: new Game(1)
-      liveGame: this.newGame()
+  // newGame() {
+  //   this.setState({
+  //     //liveGame: new Game(1)
+  //     liveGame: this.newGame()
 
-    })
-  }
+  //   })
+  // }
 
   // whoseTurn = () => {
   //   let {liveGame} = this.state
@@ -175,6 +163,7 @@ class App extends React.Component {
       alert("Move Invalid")
     }
     else {
+      this.getHistory()
       if (liveGame.getCheckMate()) {
         alert("Checkmate, Player: " + player)
       }
