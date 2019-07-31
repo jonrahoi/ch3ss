@@ -16,6 +16,8 @@ import GGame from './components/game'
 import possibleMove from './components/possibleMove';
 
 
+
+
 //看一下怎么用textarea显示一个string array
 //movehisory显示移动历史
 //两个玩家相互高亮显示
