@@ -2,17 +2,25 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import * as THREE from 'three';
 //import { Piece, Position, Pawn, Rook, Unicorn, King, Queen, Bishop, Knight } from '@rahoi/ch3ss_logic/src/Piece'
-import { Pawn, Rook, Unicorn, King, Queen, Bishop, Knight } from '@rahoi/ch3ss_logic/src/Piece'
+// import { Piece } from '@rahoi/ch3ss_logic/src/Piece'
 //import { instanceOf } from 'prop-types';
+import { Piece, Position} from "@rahoi/ch3ss_logic/dist/Piece"
+import { Knight } from "@rahoi/ch3ss_logic/dist/Knight"
+import { King } from "@rahoi/ch3ss_logic/dist/King"
+import { Bishop } from "@rahoi/ch3ss_logic/dist/Bishop"
+import { Rook } from "@rahoi/ch3ss_logic/dist/Rook"
+import { Unicorn } from "@rahoi/ch3ss_logic/dist/Unicorn"
+import { Pawn } from "@rahoi/ch3ss_logic/dist/Pawn"
+import { Queen } from "@rahoi/ch3ss_logic/dist/Queen"
 const OrbitControls = require('three-orbitcontrols');
 
-export default class Game extends Component {    
+export default class Game extends Component {
     init() {
         //let pieces = [];
         //this.setPieces();
         let { pieces } = this.props;
         console.log(pieces);
-    
+
         for (var i = 0; i < this.pieces.length; i++) {
             // create piece visual to add to scence
             let pieceViusal = pieces[i];
@@ -21,7 +29,7 @@ export default class Game extends Component {
             let y = position.getY();
             let z = position.getZ();
             let color = pieceViusal.getColor();
-            
+
             if (pieceViusal instanceof Pawn) {
                 addPawn(color, x, y, z);
             }
@@ -29,7 +37,7 @@ export default class Game extends Component {
             if (pieceViusal instanceof Rook) {
                 addRook(color, x, y, z);
             }
-            
+
             if (pieceViusal instanceof Unicorn) {
                 addUnicorn(color, x, y, z);
             }
@@ -63,12 +71,12 @@ export default class Game extends Component {
         renderer.setSize(window.innerWidth, window.innerHeight);
 
         this.mount.appendChild(renderer.domElement);
-        
+
         let controls = new OrbitControls(camera, renderer.domElement);
 
         const light = new THREE.AmbientLight(0x404040);
         scene.add(light);
-        
+
         const boardGeometry = new THREE.BoxGeometry(1, 1, 1);
         const boardMaterial = new THREE.MeshLambertMaterial({color: 0xfdfdfd, transparent: true, opacity: 0.1});
 
@@ -76,7 +84,7 @@ export default class Game extends Component {
         const boardDimension = 5;
         const board = new THREE.Object3D();
 
-        
+
         for (let x = 0; x < boardDimension; x++) {
             for (let y = 0; y < boardDimension; y++) {
                 for (let z = 0; z < boardDimension; z++) {
@@ -98,16 +106,16 @@ export default class Game extends Component {
 
         function addPawn(color, x, y, z) {
             let newPawn;
-        
+
             if (color === "white") {
                 newPawn = new THREE.Mesh(pawnGeometry, whiteMaterial.clone());
-            } 
+            }
 
             if (color === "black") {
                 newPawn = new THREE.Mesh(pawnGeometry, blackMaterial.clone());
             }
 
-            newPawn.position.set(x - 3, y - 3, z - 3); 
+            newPawn.position.set(x - 3, y - 3, z - 3);
             piecesGroup.add(newPawn);
         }
 
@@ -115,16 +123,16 @@ export default class Game extends Component {
 
         function addRook(color, x, y, z) {
             let newRook;
-        
+
             if (color === "white") {
                 newRook = new THREE.Mesh(rookGeometry, whiteMaterial.clone());
-            } 
+            }
 
             if (color === "black") {
                 newRook = new THREE.Mesh(rookGeometry, blackMaterial.clone());
             }
 
-            newRook.position.set(x - 3, y - 3, z - 3); 
+            newRook.position.set(x - 3, y - 3, z - 3);
             piecesGroup.add(newRook);
         }
 
@@ -157,7 +165,7 @@ export default class Game extends Component {
             if (color === "black") {
                 knight = new THREE.Mesh(knightGeometry, blackMaterial.clone());
             }
-            
+
             knight.position.set(x - 3, y - 3, z - 3);
             piecesGroup.add(knight);
         }
@@ -174,7 +182,7 @@ export default class Game extends Component {
             if (color === "black") {
                 unicorn = new THREE.Mesh(unicornGeometry, blackMaterial.clone());
             }
-            
+
             unicorn.position.set(x - 3, y - 3, z - 3);
             piecesGroup.add(unicorn);
         }
@@ -190,7 +198,7 @@ export default class Game extends Component {
 
             if (color === "black") {
                 king = new THREE.Mesh(kingGeometry, blackMaterial.clone());
-                
+
             }
 
             king.position.set(x - 3, y - 3, z - 3);
@@ -220,7 +228,7 @@ export default class Game extends Component {
 
         var ray = new THREE.Raycaster();
         var mouse = new THREE.Vector2();
-        
+
         function onMouseMove(event) {
             mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
             mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
@@ -244,7 +252,7 @@ export default class Game extends Component {
 
         function animate() {
             requestAnimationFrame(animate);
-            renderScene();		
+            renderScene();
             update();
         }
 
@@ -258,17 +266,17 @@ export default class Game extends Component {
             var ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
             // create an array containing all objects in the scene with which the ray intersects
             var intersects = ray.intersectObjects( scene.children );
-            // INTERSECTED = the object in the scene currently closest to the camera 
-            //		and intersected by the Ray projected from the mouse position 	
-            
+            // INTERSECTED = the object in the scene currently closest to the camera
+            //		and intersected by the Ray projected from the mouse position
+
             // if there is one (or more) intersections
             if ( intersects.length > 0 )
             {
                 // if the closest object intersected is not the currently stored intersection object
-                if ( intersects[ 0 ].object != INTERSECTED ) 
+                if ( intersects[ 0 ].object != INTERSECTED )
                 {
                     // restore previous intersection object (if it exists) to its original color
-                    if ( INTERSECTED ) 
+                    if ( INTERSECTED )
                         INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
                     // store reference to closest object as current intersection object
                     INTERSECTED = intersects[ 0 ].object;
@@ -277,17 +285,17 @@ export default class Game extends Component {
                     // set a new color for closest object
                     INTERSECTED.material.color.setHex( 0xff0000 );
                 }
-            } 
+            }
             else // there are no intersections
             {
                 // restore previous intersection object (if it exists) to its original color
-                if ( INTERSECTED ) 
+                if ( INTERSECTED )
                     INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
                 // remove previous intersection object reference
                 //     by setting current intersection object to "nothing"
                 INTERSECTED = null;
             } */
-            
+
             controls.update();
             //stats.update();
         }
@@ -299,14 +307,14 @@ export default class Game extends Component {
                 camera.position.y = -7;
                 camera.lookAt(0, 0, 0);
             }
-        
+
             if (event.keyCode === 100) {
                 camera.position.y = 7;
                 camera.lookAt(0, 0, 0);
             }
             //camera.rotation.x = 180 * Math.PI / 180;
         }
-        
+
         var renderScene = function () {
           requestAnimationFrame(renderScene);
           controls.update();
@@ -319,7 +327,7 @@ export default class Game extends Component {
         renderScene();
         // === THREE.JS CODE END ===
     }
-    
+
     render() {
         //let {pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace} = this.props;
         return (
@@ -330,7 +338,7 @@ export default class Game extends Component {
 
     componentDidMount() {
         this.init();
-    }    
+    }
 
     /*componentWillUnmount() {
         this.mount.removeChild(this.renderer.domElement);
