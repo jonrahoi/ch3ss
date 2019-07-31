@@ -137,6 +137,14 @@
     position: fixed;
     z-index: 99999999999999999999999999999999999999999999;
   }
+
+  .Resignation {
+    position: fixed;
+    left: 80%;
+    top: 32%;
+    z-index: 2;
+    
+  }
   
   /* .body {
     background-image: url("./img/4f1eae6b34ef4bfd5d5eb0245def29b5.jpg") 

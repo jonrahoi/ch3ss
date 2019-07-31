@@ -10,6 +10,7 @@ interface IState {
 interface IProps {
     setCamera: any
     setNewGame: any
+    player: string
 }
 export default class Buttons extends React.Component<IProps, IState>{
     state = { visible: false };
@@ -41,6 +42,12 @@ export default class Buttons extends React.Component<IProps, IState>{
     clickOnNewGame = () => {
         let { setNewGame } = this.props
         setNewGame()
+    }
+
+    clickOnResignation = () => {
+        let {setNewGame, player} = this.props
+        alert(player+', you lose! New game start')
+        setNewGame();
     }
     public render() {
 
@@ -80,6 +87,12 @@ export default class Buttons extends React.Component<IProps, IState>{
 
 
                     </Drawer>
+                </div>
+                <p> </p>
+
+                <div className = "Resignation" >
+                    <Button type="primary" onClick = {this.clickOnResignation}>Resignation</Button>
+
                 </div>
             </div>
 

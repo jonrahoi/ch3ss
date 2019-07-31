@@ -19,7 +19,7 @@ interface IState {
 }
 export default class what extends Component <IState, IProps>{
   render() {
-    let {history} = this.props.history
+    let {history} = this.props
     //let {liveGame} = this.state.liveGame
     const columns = [
       {
@@ -56,7 +56,24 @@ export default class what extends Component <IState, IProps>{
     //   });
     // }
     
-    //for (let i = 0; i < hist)
+    for (let i = 0; i < history.length; i = i+2) {
+      if(i % 4 == 0) {
+        data.push({
+          key: i,
+          player: 'White',
+          from: history[i],
+          to: history[i + 1]
+        })
+      }
+      else {
+        data.push({
+          key: i,
+          player: 'Black',
+          from: history[i],
+          to: history[i + 1]
+        })
+      }
+    }
     return (
       <div className = "history" style = {{width: 300}}>
         <Table columns={columns} dataSource={data} pagination={{ pageSize: 20 }} scroll={{ y: 240 }} />

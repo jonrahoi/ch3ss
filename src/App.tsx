@@ -175,13 +175,13 @@ class App extends React.Component {
       alert("Move Invalid")
     }
     else {
-      if (liveGame.getCheckMate) {
+      if (liveGame.getCheckMate()) {
         alert("Checkmate, Player: " + player)
       }
-      else if (liveGame.getStaleMate) {
+      else if (liveGame.getStaleMate()) {
         alert("Checkmate, Player: " + player)
       }
-      else if (liveGame.getCheck) {
+      else if (liveGame.getCheck()) {
         alert("Check!")
       }
     }
@@ -194,9 +194,15 @@ class App extends React.Component {
     let { liveGame } = this.state;
     let histories = liveGame.getMoveHistory();
     let history: string[] = [];
-
+    console.log("history length#####################: "+histories.length);
+    console.log(histories);
+    
     for (let i = 0; i < histories.length; i++) {
       history.push(histories[i].getPostionString());
+      console.log(histories[i].getPostionString());
+      console.log("history value in app loop: "+history);
+      
+      
     }
     console.log("history in app" + history);
 
@@ -226,17 +232,25 @@ class App extends React.Component {
 
 
     let a: string = from
-    let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString(from));
+    
     let possibleSpaceStringArray: string[] = [];
-    console.log("possitions type" + typeof (possiblePossitions));
+    //console.log("possitions type" + typeof (possiblePossitions));
+    console.log("user input from in app: " + from);
+    console.log("in app possible boolean"+liveGame.validSpace(liveGame.getPositionFromString(from)));
+    
     if (liveGame.validSpace(liveGame.getPositionFromString(from))) {
-      if (possiblePossitions.length === undefined) {
-        console.log("pipipipi");
+      // if (possiblePossitions.length == 0) {
+      //   console.log("pipipipi");
 
-        return;
-      }
+      //   return;
+      // }
+      let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString(from));
+      console.log("poss in app: " + possiblePossitions);
+      
       for (let i = 0; i < possiblePossitions.length; i++) {
-        possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
+        console.log(possiblePossitions[i].getPostionString());
+        
+        //possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
       }
     }
     else {
@@ -293,7 +307,7 @@ class App extends React.Component {
       <div className="App">
         <PlayerInfo game={this.state.liveGame} step={this.state.step} player={this.state.player} />
         <Move move={this.move.bind(this)} possible={this.possible.bind(this)} history={this.getHistory.bind(this)} setPlayer={this.setPlayer.bind(this)} setPieces={this.setPieces.bind(this)} resetPossibleMove={this.resetPossibleMove.bind(this)} />
-        <Buttons setCamera={this.setPlayer.bind(this)} setNewGame={this.setNewGame.bind(this)} />
+        <Buttons setCamera={this.setPlayer.bind(this)} setNewGame={this.setNewGame.bind(this)} player = {this.state.player}/>
         <PossibleMove possibleMoves={this.state.possibleMoves} liveGame={this.state.liveGame} possible={this.possible.bind(this)} />
         <History history={this.state.history} liveGame={this.state.liveGame} />
         {/* <What /> */}

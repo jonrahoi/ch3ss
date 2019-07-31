@@ -1,4 +1,8 @@
 import * as React from 'react';
+import { Drawer, Button } from 'antd';
+import ReactDOM from 'react-dom';
+import 'antd/dist/antd.css';
+import '../index.css';
 //import { Game } from '@rahoi/ch3ss_logic'
 //import Possition from '../interfaces/Location';
 //import Position from '@rahoi/ch3ss_logic/src/Piece'
