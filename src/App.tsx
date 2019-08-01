@@ -1,114 +1,158 @@
-
 import * as React from 'react';
 import './App.css';
 import History from './components/history';
 import PlayerInfo from './components/playerInfo';
 import Move from './components/Move';
 import Buttons from './components/bottons';
-//import Ch3ss from './components/ch3ss';
-import Location from './interfaces/Location'
 import { Game } from '@rahoi/ch3ss_logic'
 import PossibleMove from './components/possibleMove'
-// import {Button} from 'antd'
-// import 'antd/dist/antd.css';
-import What from './test/what'
 import GGame from './components/game'
-import possibleMove from './components/possibleMove';
 
-
-
-
-//看一下怎么用textarea显示一个string array
-//movehisory显示移动历史
-//两个玩家相互高亮显示
-//possibleMove  = game.getPossibleMovesSpace
-//
+let theGame = new Game(1)
 
 class App extends React.Component {
   state = {
-    liveGame: new Game(),
+    liveGame: theGame,
     step: 0,
     possibleMoves: [
-      '1, 1, 1',
-      '222',
-      '333',
-      '444'
+      ''
     ],
-    //possibleMoves: liveGame.,
-    history: 'history'
+    player: 'White',
+    history: [
+      ''
+    ],
+
+    // Give to threejs
+    pieces: theGame.getPieces(),
+    selectedPiece: '',
+    selectedSpace: '',
+    camera: 'white'
   }
 
-  newGame(){
+  resetPossibleMove = () => {
     this.setState({
-      liveGame: new Game()
-      
+      possibleMoves: [
+        ''
+      ]
+    })
+    console.log('after reset move: ' + this.state.possibleMoves);
+
+  }
+  setCamera = (camera: string) => {
+    this.setState({ camera: camera })
+  }
+
+  setNewGame = () => {
+    theGame = new Game(1)
+    this.setState({
+      liveGame: theGame,
+      possibleMoves: [
+        ''
+      ],
+      player: 'White',
+      history: [
+        ''
+      ],
+      pieces: theGame.getPieces,   //update at move
+      selectedPiece: '',
+      selectedSpace: '',
+      camera: 'white'
     })
   }
-  
-  move = (from:Location, to:Location) => {
-    let {liveGame} = this.state
-    //liveGame.newGame();
-    //let moveCompleted = liveGame.move(from, to);
-    this.setState({liveGame: liveGame})
-    console.log("move in app");
-    
+
+  setPieces = () => {
+    let { liveGame } = this.state
+    this.setState({ pieces: liveGame.getPieces() })
+  }
+  setSelectedPiece = (selectedPiece: string) => {
+    this.setState({ selectedPiece: selectedPiece })
+  }         //this is new function you should tell to Ahamd
+
+  setSelectedSpace = (selectedPiece: string) => {
+    this.setState({ selectedPiece: selectedPiece })
   }
 
-  
+  move = (from: number, to: number) => {
+    let { liveGame } = this.state
+    let player: string = liveGame.getWhoseTurnItIs();
+    let flag: boolean = false;
+    flag = liveGame.move(liveGame.getPositionFromString(String(from)), liveGame.getPositionFromString(String(to)))
+    if (!flag) {
+      alert("Move Invalid")
+    }
+    else {
+      this.getHistory()
+      if (liveGame.getCheckMate()) {
+        alert("Checkmate, Player: " + player)
+      }
+      else if (liveGame.getStaleMate()) {
+        alert("Checkmate, Player: " + player)
+      }
+      else if (liveGame.getCheck()) {
+        alert("Check!")
+      }
+    }
+    this.setState({ liveGame: liveGame })
+    }
 
-  possible = () => {
-    let {liveGame} = this.state
-    let possibleMoves = liveGame.getPositionFromString
-    this.setState({possibleMoves: possibleMoves})
-    
+  getHistory = () => {
+    let { liveGame } = this.state;
+    let histories = liveGame.getMoveHistory();
+    let history: string[] = [];
+    for (let i = 0; i < histories.length; i++) {
+      history.push(histories[i].getPostionString());
+    }
+    this.setState({ history: history })
   }
 
-  // possibleMoves = () => {
-  //   //I give you a location, please give me an array of string
+  setPlayer = () => {
+    let { liveGame } = this.state
+    this.setState({ player: liveGame.getWhoseTurnItIs() })
+    console.log('whosturn in app: ' + this.state.player);
 
-  //   let moves = [
-  //     '111',
-  //     '222',
-  //     '333'
-  //   ]
-  //   this.setState({possibleMoves: moves})
-  // }
-
-  addStep= () => {
-    let {step} = this.state
-    step++
-    this.setState({step: step})
-    console.log("test");
-    console.log(step);
-    
-    
   }
 
-  test = () => {
-    // let {count} = this.state
-    // count++
-    // this.setState({count: count})
-    
-    
-    // console.log("addCount"+count);
-    
+  possible = (from: string) => {
+    console.log("type in app:" + typeof (from));
+
+    let { liveGame } = this.state
+    console.log("from value in app" + from);
+    console.log("type of from in app" + typeof (from));
+
+    let a: string = from
+
+    let possibleSpaceStringArray: string[] = [];
+    console.log("user input from in app: " + from);
+    console.log("in app possible boolean"+liveGame.validSpace(liveGame.getPositionFromString(from)));
+
+    if (liveGame.validSpace(liveGame.getPositionFromString(from))) {
+      let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString(from));
+      for (let i = 0; i < possiblePossitions.length; i++) {
+        possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
+      }
+    }
+    else {
+      alert('Check your input')
+    }
+    this.setState({ possibleMoves: possibleSpaceStringArray })
   }
-  
+
   public render() {
+    const s = this.state
+    console.log("STATE IN APP.TSX", s)
     return (
       <div className="App">
-        <PlayerInfo game={this.state.liveGame} step = {this.state.step}/>
-        
-        <Move move = {this.move.bind(this)} addStep = {this.addStep.bind(this)} test = {this.test.bind(this)} />
-        <Buttons />
-        <PossibleMove possibleMoves = {this.state.possibleMoves} liveGame = {this.state.liveGame} possible = {this.possible.bind(this)}/>
-        <History history = {this.state.history}/>
-        <What />
-        <GGame />
+        <PlayerInfo game={s.liveGame} step={s.step} player={s.player} />
+        <Move move={this.move.bind(this)} possible={this.possible.bind(this)} history={this.getHistory.bind(this)} setPlayer={this.setPlayer.bind(this)} setPieces={this.setPieces.bind(this)} resetPossibleMove={this.resetPossibleMove.bind(this)} />
+        <Buttons setCamera={this.setPlayer.bind(this)} setNewGame={this.setNewGame.bind(this)} player = {s.player}/>
+        <PossibleMove possibleMoves={s.possibleMoves} liveGame={s.liveGame} possible={this.possible.bind(this)} />
+        <History history={s.history} liveGame={s.liveGame} />
+        {/* <What /> */}
+        {/* pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace setSelectedPiece*/}
+        <GGame spaces={s.possibleMoves} pieces={s.pieces} setSelectedPiece={this.setSelectedPiece.bind(this)} setSelectedSpace={this.setSelectedSpace.bind(this)} camera={s.camera} />
       </div>
     );
   }
-
 }
 
 export default App;

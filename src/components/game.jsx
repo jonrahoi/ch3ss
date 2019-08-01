@@ -12,14 +12,147 @@ import { Rook } from "@rahoi/ch3ss_logic/dist/Rook"
 import { Unicorn } from "@rahoi/ch3ss_logic/dist/Unicorn"
 import { Pawn } from "@rahoi/ch3ss_logic/dist/Pawn"
 import { Queen } from "@rahoi/ch3ss_logic/dist/Queen"
+import possibleMove from './possibleMove';
 const OrbitControls = require('three-orbitcontrols');
 
+const whiteMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
+const blackMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
+
+const piecesGroup = new THREE.Group();
+
+const pawnGeometry = new THREE.SphereGeometry(0.35, 16, 12);
+
+function addPawn(color, x, y, z) {
+    let newPawn;
+
+    if (color === "white") {
+        newPawn = new THREE.Mesh(pawnGeometry, whiteMaterial.clone());
+    }
+
+    if (color === "black") {
+        newPawn = new THREE.Mesh(pawnGeometry, blackMaterial.clone());
+    }
+
+    newPawn.position.set(x - 3, y - 3, z - 3);
+    piecesGroup.add(newPawn);
+}
+
+const rookGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
+
+function addRook(color, x, y, z) {
+    let newRook;
+
+    if (color === "white") {
+        newRook = new THREE.Mesh(rookGeometry, whiteMaterial.clone());
+    }
+
+    if (color === "black") {
+        newRook = new THREE.Mesh(rookGeometry, blackMaterial.clone());
+    }
+
+    newRook.position.set(x - 3, y - 3, z - 3);
+    piecesGroup.add(newRook);
+}
+
+const bishopGeometry = new THREE.CylinderGeometry(0.2, 0.25, 0.5, 16);
+
+function addBishop(color, x, y, z) {
+    let newBishop;
+
+    if (color === "white") {
+        newBishop = new THREE.Mesh(bishopGeometry, whiteMaterial.clone());
+    }
+
+    if (color === "black") {
+        newBishop = new THREE.Mesh(bishopGeometry, blackMaterial.clone());
+    }
+
+    newBishop.position.set(x - 3, y - 3, z - 3);
+    piecesGroup.add(newBishop);
+}
+
+const knightGeometry = new THREE.OctahedronGeometry(0.35);
+
+function addKnight(color, x, y, z) {
+    let knight;
+
+    if (color === "white") {
+        knight = new THREE.Mesh(knightGeometry, whiteMaterial.clone());
+    }
+
+    if (color === "black") {
+        knight = new THREE.Mesh(knightGeometry, blackMaterial.clone());
+    }
+
+    knight.position.set(x - 3, y - 3, z - 3);
+    piecesGroup.add(knight);
+}
+
+const unicornGeometry = new THREE.IcosahedronGeometry(0.35);
+
+function addUnicorn(color, x, y, z) {
+    let unicorn;
+
+    if (color === "white") {
+        unicorn = new THREE.Mesh(unicornGeometry, whiteMaterial.clone());
+    }
+
+    if (color === "black") {
+        unicorn = new THREE.Mesh(unicornGeometry, blackMaterial.clone());
+    }
+
+    unicorn.position.set(x - 3, y - 3, z - 3);
+    piecesGroup.add(unicorn);
+}
+
+const kingGeometry = new THREE.TetrahedronGeometry(0.6);
+
+function addKing(color, x, y, z) {
+    let king;
+
+    if (color === "white") {
+        king = new THREE.Mesh(kingGeometry, whiteMaterial.clone());
+    }
+
+    if (color === "black") {
+        king = new THREE.Mesh(kingGeometry, blackMaterial.clone());
+
+    }
+
+    king.position.set(x - 3, y - 3, z - 3);
+    piecesGroup.add(king);
+}
+
+const queenGeometry = new THREE.ConeGeometry(0.25, 0.75, 16);
+
+function addQueen(color, x, y, z) {
+    let queen;
+
+    if (color === "white") {
+        queen = new THREE.Mesh(queenGeometry, whiteMaterial.clone());
+    }
+
+    if (color === "black") {
+        queen = new THREE.Mesh(queenGeometry, blackMaterial.clone());
+    }
+
+    queen.position.set(x - 3, y - 3, z - 3);
+    piecesGroup.add(queen);
+}
+
 export default class Game extends Component {
+    //TODO: add OrbitControls
+    constructor(props) {
+        super(props);
+
+        console.log(this.props)
+    }
+
     init() {
         //let pieces = [];
         //this.setPieces();
         let { pieces } = this.props;
-        console.log(pieces);
+        console.log("PROPS IN INIT", this.props);
 
         for (var i = 0; i < this.pieces.length; i++) {
             // create piece visual to add to scence
@@ -59,6 +192,9 @@ export default class Game extends Component {
             }
 
         }
+    }
+    componentDidMount() {
+        // this.init();
         // === THREE.JS CODE START ===
         const scene = new THREE.Scene();
         let camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 100);
@@ -96,131 +232,6 @@ export default class Game extends Component {
         }
 
         scene.add(board);
-
-        const whiteMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
-        const blackMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
-
-        const piecesGroup = new THREE.Group();
-
-        const pawnGeometry = new THREE.SphereGeometry(0.35, 16, 12);
-
-        function addPawn(color, x, y, z) {
-            let newPawn;
-
-            if (color === "white") {
-                newPawn = new THREE.Mesh(pawnGeometry, whiteMaterial.clone());
-            }
-
-            if (color === "black") {
-                newPawn = new THREE.Mesh(pawnGeometry, blackMaterial.clone());
-            }
-
-            newPawn.position.set(x - 3, y - 3, z - 3);
-            piecesGroup.add(newPawn);
-        }
-
-        const rookGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
-
-        function addRook(color, x, y, z) {
-            let newRook;
-
-            if (color === "white") {
-                newRook = new THREE.Mesh(rookGeometry, whiteMaterial.clone());
-            }
-
-            if (color === "black") {
-                newRook = new THREE.Mesh(rookGeometry, blackMaterial.clone());
-            }
-
-            newRook.position.set(x - 3, y - 3, z - 3);
-            piecesGroup.add(newRook);
-        }
-
-        const bishopGeometry = new THREE.CylinderGeometry(0.2, 0.25, 0.5, 16);
-
-        function addBishop(color, x, y, z) {
-            let newBishop;
-
-            if (color === "white") {
-                newBishop = new THREE.Mesh(bishopGeometry, whiteMaterial.clone());
-            }
-
-            if (color === "black") {
-                newBishop = new THREE.Mesh(bishopGeometry, blackMaterial.clone());
-            }
-
-            newBishop.position.set(x - 3, y - 3, z - 3);
-            piecesGroup.add(newBishop);
-        }
-
-        const knightGeometry = new THREE.OctahedronGeometry(0.35);
-
-        function addKnight(color, x, y, z) {
-            let knight;
-
-            if (color === "white") {
-                knight = new THREE.Mesh(knightGeometry, whiteMaterial.clone());
-            }
-
-            if (color === "black") {
-                knight = new THREE.Mesh(knightGeometry, blackMaterial.clone());
-            }
-
-            knight.position.set(x - 3, y - 3, z - 3);
-            piecesGroup.add(knight);
-        }
-
-        const unicornGeometry = new THREE.IcosahedronGeometry(0.35);
-
-        function addUnicorn(color, x, y, z) {
-            let unicorn;
-
-            if (color === "white") {
-                unicorn = new THREE.Mesh(unicornGeometry, whiteMaterial.clone());
-            }
-
-            if (color === "black") {
-                unicorn = new THREE.Mesh(unicornGeometry, blackMaterial.clone());
-            }
-
-            unicorn.position.set(x - 3, y - 3, z - 3);
-            piecesGroup.add(unicorn);
-        }
-
-        const kingGeometry = new THREE.TetrahedronGeometry(0.6);
-
-        function addKing(color, x, y, z) {
-            let king;
-
-            if (color === "white") {
-                king = new THREE.Mesh(kingGeometry, whiteMaterial.clone());
-            }
-
-            if (color === "black") {
-                king = new THREE.Mesh(kingGeometry, blackMaterial.clone());
-
-            }
-
-            king.position.set(x - 3, y - 3, z - 3);
-            piecesGroup.add(king);
-        }
-
-        const queenGeometry = new THREE.ConeGeometry(0.25, 0.75, 16);
-
-        function addQueen(color, x, y, z) {
-            let queen;
-
-            if (color === "white") {
-                queen = new THREE.Mesh(queenGeometry, whiteMaterial.clone());
-            }
-
-            if (color === "black") {
-                queen = new THREE.Mesh(queenGeometry, blackMaterial.clone());
-            }
-
-            queen.position.set(x - 3, y - 3, z - 3);
-            piecesGroup.add(queen);
-        }
 
         scene.add(piecesGroup);
 
@@ -329,15 +340,13 @@ export default class Game extends Component {
     }
 
     render() {
-        //let {pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace} = this.props;
+        let {possibleMove} = this.props;
+        console.log("PROPS IN RENDER", this.props);
+        console.log(possibleMove + 'in game');
+
         return (
-          <div id = {'game'} ref={ref => (this.mount = ref)} />
+          <div className = "gamePlay" ref={ref => (this.mount = ref)} />
         )
-    }
-
-
-    componentDidMount() {
-        this.init();
     }
 
     /*componentWillUnmount() {

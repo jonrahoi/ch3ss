@@ -28,8 +28,11 @@ const MoveItem = (props: any): any => {
 }
 
 function ReptileListItems(props: any) {
+    //let {possibleMoves} = this.this.props
+    
     const reptiles = props.possibleMoves;
     //const possibleMoves =
+    
     return reptiles.map((reptile: React.ReactNode) => (
         <a className="dropdown-item" href="#">
             {reptile}
@@ -40,9 +43,7 @@ function ReptileListItems(props: any) {
 
 export default class possibleMove extends Component<IProps, IState> {
     render() {
-        //let testPossibleMoves = this.props.liveGame
         let {liveGame} = this.props
-        //liveGame.
        return (
             <div className="dropdown">
                 <ButtonName />

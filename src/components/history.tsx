@@ -1,6 +1,4 @@
 
-//import React from 'react';
-import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import '../index.css';
 import { Table } from 'antd';
@@ -8,13 +6,18 @@ import { Table } from 'antd';
 import React, { Component } from 'react'
 
 interface IProps {
-  history: any
+  history: [
+    ''
+  ]
+  liveGame: any
 }
 interface IState {
   history: any
+  liveGame: any
 }
 export default class what extends Component <IState, IProps>{
   render() {
+    let {history} = this.props
     const columns = [
       {
         title: 'Player',
@@ -33,20 +36,33 @@ export default class what extends Component <IState, IProps>{
       },
       
     ];
+    console.log("history in hitory: " + history);
+    
+    let num: number
     
     
-    const data = [];
-    for (let i = 0; i < 100; i++) {
-      data.push({
-        key: i,
-        player: '1',
-        from: ` ${i}`,
-        
-        to: `${i+1}`,
-      });
+    const data: any = []
+    
+    for (let i = 0; i < history.length; i = i+2) {
+      if(i % 4 == 0) {
+        data.push({
+          key: i,
+          player: 'White',
+          from: history[i],
+          to: history[i + 1]
+        })
+      }
+      else {
+        data.push({
+          key: i,
+          player: 'Black',
+          from: history[i],
+          to: history[i + 1]
+        })
+      }
     }
     return (
-      <div style = {{width: 300}}>
+      <div className = "history" style = {{width: 300}}>
         <Table columns={columns} dataSource={data} pagination={{ pageSize: 20 }} scroll={{ y: 240 }} />
       </div>
     )

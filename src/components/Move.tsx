@@ -1,80 +1,80 @@
 import * as React from 'react';
-//import { Game } from '@rahoi/ch3ss_logic'
-import ILocation from '../interfaces/Location';
-//import Position from '@rahoi/ch3ss_logic/src/Piece'
+import { Drawer, Button } from 'antd';
+import ReactDOM from 'react-dom';
+import 'antd/dist/antd.css';
+import '../index.css';
 
-interface IState { 
-  From: ILocation, 
-  To: ILocation 
+
+interface IState {
+  From: string,
+  To: string
 }
 
 interface IProps {
   move: any
-  addStep: any
-  test: any
-  //possibleMove?: any
+  possible: any
+  history: any
+  setPlayer: any
+  setPieces: any
+  resetPossibleMove: any
 }
 
 export default class Move extends React.Component<IProps, IState>{
-    constructor(props: any) {
-        super(props);
-        this.state = {
-          From: {
-            x: 0,
-            y: 0,
-            z: 0
-          },
-          To: {
-            x: 0,
-            y: 0,
-            z: 0
-          }
-        };
-        this.handleChangeFrom = this.handleChangeFrom.bind(this);
-        this.handleChangeTo = this.handleChangeTo.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-      }
-    
-      public handleChangeFrom(event: { target: { value: any; }; }) {
-        this.setState({From: event.target.value});
-      }
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      From: '',
+      To: ''
+    };
+    this.handleChangeFrom = this.handleChangeFrom.bind(this);
+    this.handleChangeTo = this.handleChangeTo.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-      public handleChangeTo(event: { target: { value: any; }; }) {
-        this.setState({To: event.target.value});
-      }
-    
-      public handleSubmit(event: { preventDefault: () => void; }) {
-        // console.log(this.state.From);
-        
-        // alert('An essay was submitted: ' + this.state.From + ' ' + this.state.To);
-        event.preventDefault();
-      }
+  public handleChangeFrom(event: { target: { value: any; }; }) {
+    this.setState({ From: event.target.value });
+    var a: string = event.target.value
+    if (a.length == 3) {
+      this.props.possible(a);
+    }
+  }
 
-      movePiece = () => {
-        let {move, addStep, test} = this.props
-        let {From, To} = this.state
-        console.log("movePiece in move");
-        
-        move(From, To)
-        addStep()
-        test()
-      }
-    
-      public render() {
+  public handleChangeTo(event: { target: { value: any; }; }) {
+    this.setState({ To: event.target.value });
+  }
 
-        // let {move, addStep, test}:any = this.props;
+  public handleSubmit(event: { preventDefault: () => void; }) {
+    let { setPlayer, setPieces, resetPossibleMove } = this.props
+    this.props.move(this.state.From, this.state.To)
+    let after: string = ''
+    this.setState({ From: after })
+    this.setState({ From: '' })
+    resetPossibleMove()
+    this.setState({ To: '' })
+    setPieces()
+    setPlayer()
+    event.preventDefault();
+  }
 
-        return (
-          <form onSubmit={this.handleSubmit}>
-              <div className = "input">
-                From:
-                <input type = "text"  onChange = {this.handleChangeFrom}/>
-                {'   '}
-                To:
-                <input type = "text"  onChange = {this.handleChangeTo}/>
-                <input type="submit" value="Move" onClick = {this.movePiece}/>
-              </div>
-          </form>
-        );
-      }
+  movePiece = () => {
+    let { move, history, resetPossibleMove } = this.props
+    let { From, To } = this.state
+    history()
+    resetPossibleMove()
+  }
+
+  public render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <div className="input">
+          From:
+                <input type="text" value={this.state.From} onChange={this.handleChangeFrom} />
+          {'   '}
+          To:
+                <input type="text" value={this.state.To} onChange={this.handleChangeTo} />
+          <input type="submit" value="Move" onClick={this.movePiece} />
+        </div>
+      </form>
+    );
+  }
 }
