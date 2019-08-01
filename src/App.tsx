@@ -9,10 +9,11 @@ import PossibleMove from './components/possibleMove'
 import GGame from './components/game'
 import {Position} from '@rahoi/ch3ss_logic'
 
+let theGame = new Game(1)
 
 class App extends React.Component {
   state = {
-    liveGame: new Game(1),
+    liveGame: theGame,
     step: 0,
     possibleMoves: [
       ''
@@ -23,7 +24,7 @@ class App extends React.Component {
     ],
 
     // Give to threejs
-    pieces: new Game(1).getPieces,   //update at move
+    pieces: theGame.getPieces(),
     selectedPiece: '',
     selectedSpace: '',
     camera: 'white'
@@ -43,8 +44,9 @@ class App extends React.Component {
   }
 
   setNewGame = () => {
+    theGame = new Game(1)
     this.setState({
-      liveGame: new Game(1),
+      liveGame: theGame,
       possibleMoves: [
         ''
       ],
@@ -52,7 +54,7 @@ class App extends React.Component {
       history: [
         ''
       ],
-      pieces: new Game(1).getPieces,   //update at move
+      pieces: theGame.getPieces,   //update at move
       selectedPiece: '',
       selectedSpace: '',
       camera: 'white'
@@ -132,11 +134,11 @@ class App extends React.Component {
     console.log("type of from in app" + typeof (from));
 
     let a: string = from
-    
+
     let possibleSpaceStringArray: string[] = [];
     console.log("user input from in app: " + from);
     console.log("in app possible boolean"+liveGame.validSpace(liveGame.getPositionFromString(from)));
-    
+
     if (liveGame.validSpace(liveGame.getPositionFromString(from))) {
       let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString(from));  
 
@@ -158,16 +160,18 @@ class App extends React.Component {
   }
 
   public render() {
+    const s = this.state
+    console.log("STATE IN APP.TSX", s)
     return (
       <div className="App">
-        <PlayerInfo game={this.state.liveGame} step={this.state.step} player={this.state.player} />
+        <PlayerInfo game={s.liveGame} step={s.step} player={s.player} />
         <Move move={this.move.bind(this)} possible={this.possible.bind(this)} history={this.getHistory.bind(this)} setPlayer={this.setPlayer.bind(this)} setPieces={this.setPieces.bind(this)} resetPossibleMove={this.resetPossibleMove.bind(this)} />
-        <Buttons setCamera={this.setPlayer.bind(this)} setNewGame={this.setNewGame.bind(this)} player = {this.state.player}/>
-        <PossibleMove possibleMoves={this.state.possibleMoves} liveGame={this.state.liveGame} possible={this.possible.bind(this)} />
-        <History history={this.state.history} liveGame={this.state.liveGame} />
+        <Buttons setCamera={this.setPlayer.bind(this)} setNewGame={this.setNewGame.bind(this)} player = {s.player}/>
+        <PossibleMove possibleMoves={s.possibleMoves} liveGame={s.liveGame} possible={this.possible.bind(this)} />
+        <History history={s.history} liveGame={s.liveGame} />
         {/* <What /> */}
         {/* pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace setSelectedPiece*/}
-        <GGame spaces={this.state.possibleMoves} pieces={this.state.pieces} setSelectedPiece={this.setSelectedPiece.bind(this)} setSelectedSpace={this.setSelectedSpace.bind(this)} camera={this.state.camera} />
+        <GGame spaces={s.possibleMoves} pieces={s.pieces} setSelectedPiece={this.setSelectedPiece.bind(this)} setSelectedSpace={this.setSelectedSpace.bind(this)} camera={s.camera} />
       </div>
     );
   }
