@@ -9,7 +9,7 @@
 #home {
     clip-path: url(#cache);
   }
-  
+
   #red {
     fill: none;
     opacity: 0.15;
@@ -19,9 +19,9 @@
     animation: show 4s;
     animation-fill-mode: forwards;
     animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out; 
+    animation-timing-function: ease-in-out;
   }
-  
+
   #blue {
     fill: none;
     opacity: 0.15;
@@ -33,7 +33,7 @@
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
   }
-  
+
   #light-blue {
     fill: none;
     opacity: 0.15;
@@ -45,15 +45,15 @@
     animation: draw 4s;
     animation-fill-mode: forwards;
     animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;    
+    animation-timing-function: ease-in-out;
   }
-  
+
   @keyframes draw {
     to {
       stroke-dashoffset: 0;
    }
       }
-  
+
   @keyframes show {
     0% {
       opacity: 0.15;
@@ -65,10 +65,10 @@
       opacity: 0.15;
    }
       }
-  
-  
-  
-  /* #game {
+
+
+  /*TODO: Fix this */
+  #game {
     position: fixed;
     top: 10%
   } */
@@ -76,7 +76,7 @@
     position: fixed;
     top: 8%
   }
-  
+
   .input {
     position: fixed;
     top: 5%;
@@ -143,15 +143,15 @@
     left: 80%;
     top: 32%;
     z-index: 2;
-    
+
   }
-  
+
   /* .body {
-    background-image: url("./img/4f1eae6b34ef4bfd5d5eb0245def29b5.jpg") 
+    background-image: url("./img/4f1eae6b34ef4bfd5d5eb0245def29b5.jpg")
     background-color: cornflowerblue;
     position: fixed;
-    
-  
+
+
   }
 
   :root {
@@ -163,4 +163,4 @@
 
   } */
 
-  
+
