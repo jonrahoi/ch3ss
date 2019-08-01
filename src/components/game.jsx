@@ -21,6 +21,7 @@ export default class Game extends Component{
         camera.position.y = -7;
         camera.lookAt(0, 0, 0);
 
+
         var renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setClearColor("#ffffff");
         renderer.setSize(window.innerWidth, window.innerHeight);

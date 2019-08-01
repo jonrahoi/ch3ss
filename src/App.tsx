@@ -7,6 +7,7 @@ import Buttons from './components/bottons';
 import { Game } from '@rahoi/ch3ss_logic'
 import PossibleMove from './components/possibleMove'
 import GGame from './components/game'
+import {Position} from '@rahoi/ch3ss_logic'
 
 
 class App extends React.Component {
@@ -111,9 +112,22 @@ class App extends React.Component {
   }
 
   possible = (from: string) => {
+    
     console.log("type in app:" + typeof (from));
 
     let { liveGame } = this.state
+
+    let test = new Position(1,4,4)
+    // let pos: Position[] = liveGame.getPossibleMovesForPieceAtSpace(test);
+    let pos = liveGame.getPossibleMovesForPieceAtSpace(test);
+
+    for(let i = 0; i < pos.length; i++) {
+      // console.log("test possible by possition: "+ liveGame.getPossibleMovesForPieceAtSpace(test)[i].getPostionString);
+      console.log("test possible by possition: "+ pos[i].getPostionString);
+
+    }
+     
+     
     console.log("from value in app" + from);
     console.log("type of from in app" + typeof (from));
 
@@ -124,10 +138,18 @@ class App extends React.Component {
     console.log("in app possible boolean"+liveGame.validSpace(liveGame.getPositionFromString(from)));
     
     if (liveGame.validSpace(liveGame.getPositionFromString(from))) {
-      let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString(from));      
-      for (let i = 0; i < possiblePossitions.length; i++) {
-        possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
+      let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString(from));  
+
+      //let test =   possiblePossitions[0].getPostionString()
+      if(possiblePossitions[0].getPostionString() == '000') {
+        alert("something")
+      }  
+      else {
+        for (let i = 0; i < possiblePossitions.length; i++) {
+          possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
+        }
       }
+      
     }
     else {
       alert('Check your input')
