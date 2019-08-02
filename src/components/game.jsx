@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import * as THREE from 'three';
-//import { Piece, Position, Pawn, Rook, Unicorn, King, Queen, Bishop, Knight } from '@rahoi/ch3ss_logic/src/Piece'
-// import { Piece } from '@rahoi/ch3ss_logic/src/Piece'
-//import { instanceOf } from 'prop-types';
 import { Piece, Position} from "@rahoi/ch3ss_logic/dist/Piece"
 import { Knight } from "@rahoi/ch3ss_logic/dist/Knight"
 import { King } from "@rahoi/ch3ss_logic/dist/King"
@@ -145,7 +142,7 @@ export default class Game extends Component {
     constructor(props) {
         super(props);
 
-        console.log("props in game: "+this.props)
+        console.log(this.props)
     }
 
     init() {
@@ -194,8 +191,7 @@ export default class Game extends Component {
         }
     }
     componentDidMount() {
-        // this.init();
-        // === THREE.JS CODE START ===
+        /** three.js code start */
         const scene = new THREE.Scene();
         let camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.rotation.order = 'YXZ';
@@ -216,10 +212,8 @@ export default class Game extends Component {
         const boardGeometry = new THREE.BoxGeometry(1, 1, 1);
         const boardMaterial = new THREE.MeshLambertMaterial({color: 0xfdfdfd, transparent: true, opacity: 0.1});
 
-        /*change varibale name */
         const boardDimension = 5;
         const board = new THREE.Object3D();
-
 
         for (let x = 0; x < boardDimension; x++) {
             for (let y = 0; y < boardDimension; y++) {
@@ -240,7 +234,7 @@ export default class Game extends Component {
         var ray = new THREE.Raycaster();
         var mouse = new THREE.Vector2();
 
-        function onMouseMove(event) {
+        /*function onMouseMove(event) {
             mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
             mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
@@ -259,7 +253,7 @@ export default class Game extends Component {
             } else {
                 setSelectedSpace(intersected.position);
             }
-        }
+        }*/
 
         function animate() {
             requestAnimationFrame(animate);
@@ -278,7 +272,7 @@ export default class Game extends Component {
             // create an array containing all objects in the scene with which the ray intersects
             var intersects = ray.intersectObjects( scene.children );
             // INTERSECTED = the object in the scene currently closest to the camera
-            //		and intersected by the Ray projected from the mouse position
+            //    	and intersected by the Ray projected from the mouse position
 
             // if there is one (or more) intersections
             if ( intersects.length > 0 )
@@ -332,17 +326,17 @@ export default class Game extends Component {
           renderer.render(scene, camera);
         };
 
-        window.addEventListener('mousemove', onMouseMove, false);
+        //window.addEventListener('mousemove', onMouseMove, false);
         window.addEventListener('keypress', onKeyPress, false);
 
         renderScene();
-        // === THREE.JS CODE END ===
+    /** End of three.js code */
     }
 
     render() {
-        let {liveGame} = this.props;
-        console.log("PROPS IN RENDER", this.props);
-        console.log(possibleMove + 'in game');
+        let { liveGame, sta } = this.props;
+        console.log("liveGame in Game: "+liveGame)
+        console.log("PROPS IN RENDER", sta);
 
         return (
           <div className = "gamePlay" ref={ref => (this.mount = ref)} />
