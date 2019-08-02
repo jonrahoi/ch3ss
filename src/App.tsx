@@ -141,7 +141,8 @@ class App extends React.Component {
 
     if (liveGame.validSpace(liveGame.getPositionFromString(from))) {
       let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString(from));  
-
+      console.log("possible: ##" + possiblePossitions[0]);
+      
       //let test =   possiblePossitions[0].getPostionString()
       if(possiblePossitions[0].getPostionString() == '000') {
         alert("something")
@@ -171,7 +172,8 @@ class App extends React.Component {
         <History history={s.history} liveGame={s.liveGame} />
         {/* <What /> */}
         {/* pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace setSelectedPiece*/}
-        <GGame spaces={s.possibleMoves} pieces={s.pieces} setSelectedPiece={this.setSelectedPiece.bind(this)} setSelectedSpace={this.setSelectedSpace.bind(this)} camera={s.camera} liveGame = {s.liveGame}/>
+        {/* <GGame spaces={s.possibleMoves} pieces={s.pieces} setSelectedPiece={this.setSelectedPiece.bind(this)} setSelectedSpace={this.setSelectedSpace.bind(this)} camera={s.camera} liveGame = {s.liveGame}/> */}
+        <GGame liveGame = {s.liveGame}/>
       </div>
     );
   }

@@ -145,7 +145,7 @@ export default class Game extends Component {
     constructor(props) {
         super(props);
 
-        console.log(this.props)
+        console.log("props in game: "+this.props)
     }
 
     init() {
@@ -340,7 +340,7 @@ export default class Game extends Component {
     }
 
     render() {
-        let {possibleMove} = this.props;
+        let {liveGame} = this.props;
         console.log("PROPS IN RENDER", this.props);
         console.log(possibleMove + 'in game');
 
