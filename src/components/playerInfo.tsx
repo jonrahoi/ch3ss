@@ -12,6 +12,7 @@ interface IProps {
 }
 
 export default class PlayerInfo extends React.Component<IProps, IState>{
+  
   public render() {
     let {player} = this.props
     let flag1: string

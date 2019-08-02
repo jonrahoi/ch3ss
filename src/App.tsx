@@ -173,7 +173,7 @@ class App extends React.Component {
         {/* <What /> */}
         {/* pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace setSelectedPiece*/}
         {/* <GGame spaces={s.possibleMoves} pieces={s.pieces} setSelectedPiece={this.setSelectedPiece.bind(this)} setSelectedSpace={this.setSelectedSpace.bind(this)} camera={s.camera} liveGame = {s.liveGame}/> */}
-        <GGame liveGame = {s.liveGame}/>
+        {/* <GGame liveGame = {s.liveGame}/> */}
       </div>
     );
   }

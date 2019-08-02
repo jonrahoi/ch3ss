@@ -44,6 +44,8 @@ function ReptileListItems(props: any) {
 export default class possibleMove extends Component<IProps, IState> {
     render() {
         let {liveGame} = this.props
+        console.log("liveGame in possibleMove: " + liveGame);
+        
        return (
             <div className="dropdown">
                 <ButtonName />
