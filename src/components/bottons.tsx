@@ -48,6 +48,12 @@ export default class Buttons extends React.Component<IProps, IState>{
         alert(player+', you lose! New game start')
         setNewGame();
     }
+
+    clickOnDraw = () => {
+        let {setNewGame, player} = this.props
+        alert('Draw!')
+        setNewGame();
+    }
     public render() {
 
         return (
@@ -60,7 +66,7 @@ export default class Buttons extends React.Component<IProps, IState>{
                     <Button type="primary" onClick = {this.clickOnResignation}>Resign</Button>
                 </div>
                 <div className="Draw" >
-                    <Button onClick={this.clickOnNewGame} type="primary">Draw</Button>
+                    <Button onClick={this.clickOnDraw} type="primary">Draw</Button>
                 </div>
                 <div className="newGame" >
                     <Button onClick={this.clickOnNewGame} type="primary">New Game</Button>
