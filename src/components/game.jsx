@@ -337,6 +337,7 @@ export default class Game extends Component {
         let { liveGame, sta } = this.props;
         console.log("liveGame in Game: "+liveGame)
         console.log("PROPS IN RENDER", sta);
+        liveGame.
 
         return (
           <div className = "gamePlay" ref={ref => (this.mount = ref)} />
