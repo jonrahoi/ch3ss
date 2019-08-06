@@ -173,6 +173,7 @@ class App extends React.Component {
   public render() {
     const s = this.state
     console.log("STATE IN APP.TSX", s)
+    //just for update to github
     return (
       <div className="App">
         <PlayerInfo game={s.liveGame} step={s.step} player={s.player} />
