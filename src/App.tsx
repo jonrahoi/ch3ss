@@ -9,25 +9,33 @@ import PossibleMove from './components/possibleMove'
 import GGame from './components/game'
 import {Position} from '@rahoi/ch3ss_logic'
 
-let theGame = new Game(1)
+//let theGame = new Game(1)
 
 class App extends React.Component {
   state = {
-    liveGame: theGame,
+    liveGame: new Game(1),
     step: 0,
     possibleMoves: [
       ''
     ],
+    //possibleMoves: liveGame.,
+    //whosTurn: string,   //return black or white
     player: 'White',
+    //thereischeck, checkmate,stalmate
+
     history: [
       ''
     ],
 
     // Give to threejs
-    pieces: theGame.getPieces(),
+    pieces: new Game(1).getPieces,   //update at move
+    // spaces: [          here I should just pass the possible move as spaces
+    //   ''
+    // ],
     selectedPiece: '',
     selectedSpace: '',
     camera: 'white'
+    //setSelectedSpace: ''
   }
 
   resetPossibleMove = () => {
@@ -44,9 +52,9 @@ class App extends React.Component {
   }
 
   setNewGame = () => {
-    theGame = new Game(1)
+    //theGame = new Game(1)
     this.setState({
-      liveGame: theGame,
+      liveGame: new Game(1),
       possibleMoves: [
         ''
       ],
@@ -54,7 +62,7 @@ class App extends React.Component {
       history: [
         ''
       ],
-      pieces: theGame.getPieces,   //update at move
+      pieces: new Game(1).getPieces,   //update at move
       selectedPiece: '',
       selectedSpace: '',
       camera: 'white'
@@ -120,8 +128,10 @@ class App extends React.Component {
     let { liveGame } = this.state
 
     let test = new Position(1,4,4)
+    Number.parseInt(from.charAt(0))
+    let f = new Position(Number.parseInt(from.charAt(0)), Number.parseInt(from.charAt(1)), Number.parseInt(from.charAt(2)))
     // let pos: Position[] = liveGame.getPossibleMovesForPieceAtSpace(test);
-    let pos = liveGame.getPossibleMovesForPieceAtSpace(test);
+    let pos = liveGame.getPossibleMovesForPieceAtSpace(f);
 
     for(let i = 0; i < pos.length; i++) {
       // console.log("test possible by possition: "+ liveGame.getPossibleMovesForPieceAtSpace(test)[i].getPostionString);
@@ -137,21 +147,21 @@ class App extends React.Component {
 
     let possibleSpaceStringArray: string[] = [];
     console.log("user input from in app: " + from);
-    console.log("in app possible boolean"+liveGame.validSpace(liveGame.getPositionFromString(from)));
-
-    if (liveGame.validSpace(liveGame.getPositionFromString(from))) {
-      let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(liveGame.getPositionFromString(from));  
+    console.log("in app possible boolean"+liveGame.validSpace(f));
+    let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(f);
+    if (liveGame.validSpace(f) && possiblePossitions != undefined) {
+        
       console.log("possible: ##" + possiblePossitions[0]);
       
       //let test =   possiblePossitions[0].getPostionString()
-      if(possiblePossitions[0].getPostionString() == '000') {
-        alert("something")
-      }  
-      else {
-        for (let i = 0; i < possiblePossitions.length; i++) {
-          possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
-        }
-      }
+      // if(possiblePossitions[0].getPostionString() == '000') {
+      //   alert("something")
+      // }  
+      // else {
+         for (let i = 0; i < possiblePossitions.length; i++) {
+           possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
+         }
+      // }
       
     }
     else {
@@ -162,7 +172,6 @@ class App extends React.Component {
 
   public render() {
     const s = this.state
-    console.log("STATE IN APP.TSX", s)
     return (
       <div className="App">
         <PlayerInfo game={s.liveGame} step={s.step} player={s.player} />
