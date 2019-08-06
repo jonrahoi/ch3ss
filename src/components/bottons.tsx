@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Drawer, Button } from 'antd';
-//import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import '../index.css';
 

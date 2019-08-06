@@ -14,13 +14,11 @@ const ButtonName = (): any => {
             Possible Moves
         </button>
     )
-
 }
 
 const MoveItem = (props: any): any => {
     let result = ReptileListItems(props)
-
-     return (
+    return (
         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
             {result}
         </div>
@@ -28,25 +26,18 @@ const MoveItem = (props: any): any => {
 }
 
 function ReptileListItems(props: any) {
-    //let {possibleMoves} = this.this.props
-    
     const reptiles = props.possibleMoves;
-    //const possibleMoves =
-    
     return reptiles.map((reptile: React.ReactNode) => (
         <a className="dropdown-item" href="#">
             {reptile}
         </a>
-        
     ));
 }
 
 export default class possibleMove extends Component<IProps, IState> {
     render() {
-        let {liveGame} = this.props
-        console.log("liveGame in possibleMove: " + liveGame);
-        
-       return (
+        let { liveGame } = this.props
+        return (
             <div className="dropdown">
                 <ButtonName />
                 <MoveItem possibleMoves={this.props.possibleMoves} />
