@@ -34,7 +34,9 @@ export default class PlayerInfo extends React.Component<IProps, IState>{
       whiteStyle.visibility = 'hidden'
       blackStyle.visibility = 'visible'
     }
-    let a = 'visible'
+    //let a = 'visible'
+    console.log("whiteStyle: " + whiteStyle.visibility+"    "+"blackStyle: " + blackStyle.visibility);
+    
     return (
       <div className = "palyerInfo">
         <div>
@@ -72,7 +74,7 @@ export default class PlayerInfo extends React.Component<IProps, IState>{
         </div>
         <div>
           <button className="btn btn-info" disabled={true}>Black</button>
-          <svg visibility = {whiteStyle.visibility} version="1.0" xmlns="http://www.w3.org/2000/svg"
+          <svg visibility = {blackStyle.visibility} version="1.0" xmlns="http://www.w3.org/2000/svg"
             width="50pt" height="50pt" viewBox="0 0 1280.000000 960.000000"
             preserveAspectRatio="xMidYMid meet">
             <metadata>
