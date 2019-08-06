@@ -84,7 +84,7 @@ export default class Buttons extends React.Component<IProps, IState>{
                 <p> </p>
                 <div className="rules">
                     <Button type="primary" onClick={this.showDrawer}>
-                        rules
+                        Rules
                     </Button>
                     <Drawer className="rules"
                         title="Game Rules"

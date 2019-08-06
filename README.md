@@ -1,8 +1,16 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Ch3ss
 
-In the project directory, you can run:
+A 3D game of chess
+
+[![ForgiveDB](https://img.shields.io/badge/ForgiveDB-HuiZ-brightgreen.svg)](https://github.com/hui-z/ForgiveDB)
+
+*这么一长串实际上是 Markdown 里图片的语法，加超链接的语法组合成的* 
+
+![图片的语法](https://img.shields.io/badge/ForgiveDB-HuiZ-brightgreen.svg) 
+
+[超链接的语法](https://github.com/hui-z/ForgiveDB) 
 
 ### `npm start`
 
