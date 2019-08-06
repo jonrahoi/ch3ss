@@ -140,24 +140,18 @@ class App extends React.Component {
     }
      
      
-    console.log("from value in app" + from);
-    console.log("type of from in app" + typeof (from));
+    //console.log("from value in app" + from);
+    //console.log("type of from in app" + typeof (from));
 
-    let a: string = from
+    //let a: string = from
 
     let possibleSpaceStringArray: string[] = [];
     console.log("user input from in app: " + from);
     console.log("in app possible boolean"+liveGame.validSpace(f));
     let possiblePossitions = liveGame.getPossibleMovesForPieceAtSpace(f);
     if (liveGame.validSpace(f) && possiblePossitions != undefined) {
-        
-      console.log("possible: ##" + possiblePossitions[0]);
-      
-      //let test =   possiblePossitions[0].getPostionString()
-      // if(possiblePossitions[0].getPostionString() == '000') {
-      //   alert("something")
-      // }  
-      // else {
+
+      //console.log("possible: ##" + possiblePossitions[0]);
          for (let i = 0; i < possiblePossitions.length; i++) {
            possibleSpaceStringArray.push(possiblePossitions[i].getPostionString());
          }
@@ -182,7 +176,7 @@ class App extends React.Component {
         {/* <What /> */}
         {/* pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace setSelectedPiece*/}
         {/* <GGame spaces={s.possibleMoves} pieces={s.pieces} setSelectedPiece={this.setSelectedPiece.bind(this)} setSelectedSpace={this.setSelectedSpace.bind(this)} camera={s.camera} liveGame = {s.liveGame}/> */}
-        {/* <GGame liveGame = {s.liveGame} sta = {s}/> */}
+        <GGame liveGame = {s.liveGame} sta = {s}/>
       </div>
     );
   }
