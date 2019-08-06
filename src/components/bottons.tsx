@@ -57,10 +57,25 @@ export default class Buttons extends React.Component<IProps, IState>{
                     <button onClick={this.clickOnBlack}>Black Version</button>
                     <button onClick={this.clickOnWhite}>White Version</button>
                 </div>
-
+                <div className = "Resignation" >
+                    <Button type="primary" onClick = {this.clickOnResignation}>Resign</Button>
+                </div>
+                <div className="Draw" >
+                    <Button onClick={this.clickOnNewGame} type="primary">Draw</Button>
+                </div>
                 <div className="newGame" >
                     <Button onClick={this.clickOnNewGame} type="primary">New Game</Button>
                 </div>
+                
+                <div className="Save" >
+                    <Button onClick={this.clickOnNewGame} type="primary">Save</Button>
+                </div>
+                {/* <div className="newGame" >
+                    <Button onClick={this.clickOnNewGame} type="primary">New Game</Button>
+                </div>
+                <div className="newGame" >
+                    <Button onClick={this.clickOnNewGame} type="primary">New Game</Button>
+                </div> */}
                 <p> </p>
                 <div className="rules">
                     <Button type="primary" onClick={this.showDrawer}>
@@ -88,9 +103,7 @@ export default class Buttons extends React.Component<IProps, IState>{
                 </div>
                 <p> </p>
 
-                <div className = "Resignation" >
-                    <Button type="primary" onClick = {this.clickOnResignation}>Resignation</Button>
-                </div>
+                
             </div>
 
 

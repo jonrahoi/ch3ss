@@ -165,6 +165,8 @@ class App extends React.Component {
   }
 
   public render() {
+    console.log(this.state.liveGame.getBoardStateStringArray());
+    
     const s = this.state
     return (
       <div className="App">
