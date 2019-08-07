@@ -127,18 +127,23 @@ export default class LiveGame extends Component {
         scene.add(board);
 
 
-        let {setLiveGame, test} = this.props;
+        let {setLiveGame, test, liveGame, pieces} = this.props;
         //test()
-        let currentGame = new Game();
+        //let currentGame = new Game();
+        
+        //currentGame.move(currentGame.getPositionFromString(122),currentGame.getPositionFromString(123))
         //currentGame.move(currentGame.getPositionFromString(122), currentGame.getPositionFromString(123))
         //setLiveGame(currentGame);
         if(this.props.setLiveGame != undefined) {
-            this.props.setLiveGame(currentGame)
-        }
-        let currentPieces = currentGame.getPieces();
-        
-        let whitePiecesGroup = new THREE.Group();
-        let blackPiecesGroup = new THREE.Group();
+            //this.props.setLiveGame(currentGame)
+            console.log("game is playing");
+            
+            let currentGame;
+            let currentPieces;
+            currentGame = liveGame
+            currentPieces = pieces;
+            let whitePiecesGroup = new THREE.Group();
+            let blackPiecesGroup = new THREE.Group();
 
         for (var i = 0; i < currentPieces.length; i++) {
             if (currentPieces[i].color === WHITE) {
@@ -224,10 +229,20 @@ export default class LiveGame extends Component {
                 INTERSECTED.material.emissive.set(0xff0000);
             }
         }
+        }
+        else{
+            console.log("game is undefined");
+            
+        }
+        
+        
+        
+        
+        
 
         
     }
-
+    
     
     render() {
         
@@ -235,6 +250,10 @@ export default class LiveGame extends Component {
         //console.log(typeof(this.props.test()));
         
         //this.props.test()
+        console.log("call render in game");
+        //this.componentDidMount()
+        let {pieces} = this.props
+        console.log(pieces+" in game");
         
         
         return (

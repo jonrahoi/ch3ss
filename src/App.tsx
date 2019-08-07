@@ -22,7 +22,7 @@ class App extends React.Component {
     history: [
       ''
     ],
-    pieces: theGame.getPieces,   //update at move
+    pieces: theGame.getPieces(),   //update at move
     selectedPiece: '',
     selectedSpace: '',
     camera: 'white',
@@ -153,7 +153,7 @@ class App extends React.Component {
 
   public render() {
     console.log(this.state.liveGame.getBoardStateStringArray());
-    this.test()
+    // this.test()
     const s = this.state
     return (
       <div className="App">
@@ -166,7 +166,7 @@ class App extends React.Component {
         {/* pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace setSelectedPiece*/}
         {/* <GGame spaces={s.possibleMoves} pieces={s.pieces} setSelectedPiece={this.setSelectedPiece.bind(this)} setSelectedSpace={this.setSelectedSpace.bind(this)} camera={s.camera} liveGame = {s.liveGame}/> */}
         {/* <GGame setLiveGame = {this.setLiveGame.bind(this)} newGame = {s.newGame} test = {this.test.bind(this)}/> */}
-        <GGame setLiveGame = {this.setLiveGame.bind(this)} test = {this.test.bind(this)} liveGame = {s.liveGame} setNewGame={this.setNewGame.bind(this)}/>
+        <GGame setLiveGame = {this.setLiveGame.bind(this)} test = {this.test.bind(this)} liveGame = {s.liveGame} setNewGame={this.setNewGame.bind(this)} pieces = {s.pieces}/>
       </div>
     );
   }
