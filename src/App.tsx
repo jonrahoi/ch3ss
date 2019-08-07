@@ -25,7 +25,20 @@ class App extends React.Component {
     pieces: theGame.getPieces,   //update at move
     selectedPiece: '',
     selectedSpace: '',
-    camera: 'white'
+    camera: 'white',
+    newGame: ''
+  }
+
+  setLiveGame = (liveGame: any) => {
+    this.setState({
+      liveGame: liveGame
+    })
+  }
+
+  setNewGameState = () => {
+    this.setState({
+      newGame: 'new'
+    })
   }
 
   resetPossibleMove = () => {
@@ -41,6 +54,7 @@ class App extends React.Component {
   }
 
   setNewGame = () => {
+    this.setNewGameState()
     theGame = new Game(1)
     this.setState({
       liveGame: theGame,
