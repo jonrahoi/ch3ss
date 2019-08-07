@@ -4,7 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 A 3D game of chess
 
-[![ForgiveDB](https://img.shields.io/badge/ForgiveDB-HuiZ-brightgreen.svg)](https://github.com/hui-z/ForgiveDB)
+[![](https://img.shields.io/badge/npm-v6.4.1-green)]
+[![]]
 
 *这么一长串实际上是 Markdown 里图片的语法，加超链接的语法组合成的* 
 

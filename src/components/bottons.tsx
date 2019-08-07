@@ -58,10 +58,10 @@ export default class Buttons extends React.Component<IProps, IState>{
 
         return (
             <div className="bu">
-                <div className="version">
+                {/* <div className="version">
                     <button onClick={this.clickOnBlack}>Black Version</button>
                     <button onClick={this.clickOnWhite}>White Version</button>
-                </div>
+                </div> */}
                 <div className = "Resignation" >
                     <Button type="primary" onClick = {this.clickOnResignation}>Resign</Button>
                 </div>

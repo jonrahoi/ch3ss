@@ -35,6 +35,12 @@ class App extends React.Component {
     })
   }
 
+  test1 = () => {
+    
+    console.log(false + " in");
+    
+  }
+
   setNewGameState = () => {
     this.setState({
       newGame: 'new'
@@ -139,9 +145,15 @@ class App extends React.Component {
     this.setState({ possibleMoves: possibleSpaceStringArray })
   }
 
+  test = () => {
+    alert("in test")
+    console.log("in test");
+    
+  }
+
   public render() {
     console.log(this.state.liveGame.getBoardStateStringArray());
-
+    this.test()
     const s = this.state
     return (
       <div className="App">
@@ -149,11 +161,12 @@ class App extends React.Component {
         <Move move={this.move.bind(this)} possible={this.possible.bind(this)} history={this.getHistory.bind(this)} setPlayer={this.setPlayer.bind(this)} setPieces={this.setPieces.bind(this)} resetPossibleMove={this.resetPossibleMove.bind(this)} />
         <Buttons setCamera={this.setPlayer.bind(this)} setNewGame={this.setNewGame.bind(this)} player={s.player} />
         <PossibleMove possibleMoves={s.possibleMoves} liveGame={s.liveGame} possible={this.possible.bind(this)} />
-        <History history={s.history} liveGame={s.liveGame} />
+        <History history={s.history} liveGame={s.liveGame} test = {this.test.bind(this)}/>
         {/* <What /> */}
         {/* pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace setSelectedPiece*/}
         {/* <GGame spaces={s.possibleMoves} pieces={s.pieces} setSelectedPiece={this.setSelectedPiece.bind(this)} setSelectedSpace={this.setSelectedSpace.bind(this)} camera={s.camera} liveGame = {s.liveGame}/> */}
-        <GGame liveGame={s.liveGame} sta={s} />
+        {/* <GGame setLiveGame = {this.setLiveGame.bind(this)} newGame = {s.newGame} test = {this.test.bind(this)}/> */}
+        <GGame setLiveGame = {this.setLiveGame.bind(this)} test = {this.test.bind(this)} liveGame = {s.liveGame} setNewGame={this.setNewGame.bind(this)}/>
       </div>
     );
   }
