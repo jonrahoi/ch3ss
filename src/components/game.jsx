@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import * as THREE from 'three';
 import { Game } from "@rahoi/ch3ss_logic/dist/Game";
-//import { Piece, Position} from "@rahoi/ch3ss_logic/dist/Piece";
 import { Knight } from "@rahoi/ch3ss_logic/dist/Knight";
 import { King } from "@rahoi/ch3ss_logic/dist/King";
 import { Bishop } from "@rahoi/ch3ss_logic/dist/Bishop";
@@ -10,11 +9,7 @@ import { Rook } from "@rahoi/ch3ss_logic/dist/Rook";
 import { Unicorn } from "@rahoi/ch3ss_logic/dist/Unicorn";
 import { Pawn } from "@rahoi/ch3ss_logic/dist/Pawn";
 import { Queen } from "@rahoi/ch3ss_logic/dist/Queen";
-import possibleMove from './possibleMove';
-import { BLACK } from "@rahoi/ch3ss_logic/dist/constants";
-import { WHITE } from "@rahoi/ch3ss_logic/dist/constants";
-
-const OrbitControls = require('three-orbitcontrols');
+import { BLACK, WHITE } from "@rahoi/ch3ss_logic/dist/constants";
 
 const whiteMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
 const blackMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
@@ -27,8 +22,7 @@ const unicornGeometry = new THREE.IcosahedronGeometry(0.35);
 const kingGeometry = new THREE.TetrahedronGeometry(0.6);
 const queenGeometry = new THREE.ConeGeometry(0.25, 0.75, 16);
 
-let INTERSECTED;
-let currentlySelectedPiece = null;
+let SELECTED = null;
 
 function addPieceToGroup(piece, group) {
     let newMaterial;
@@ -77,20 +71,7 @@ function addPieceToGroup(piece, group) {
 }
 
 export default class LiveGame extends Component {
-    // constructor(props) {
-    //     super(props);
-        
-    //     if(this.props.liveGame != undefined) {
-    //         console.log(this.props.liveGame);
-    //     }
-    //     //console.log(props.liveGame.getWhoseTurnItIs());
-    //     console.log("  in gg");
-        
-    //     //this.props.test()
-        
-    // }
     componentDidMount() {
-        
         const scene = new THREE.Scene();
         let camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.rotation.order = 'YXZ';
@@ -103,6 +84,7 @@ export default class LiveGame extends Component {
 
         this.mount.appendChild(renderer.domElement);
 
+        const OrbitControls = require('three-orbitcontrols');
         let controls = new OrbitControls(camera, renderer.domElement);
 
         const light = new THREE.AmbientLight(0x404040);
@@ -126,15 +108,10 @@ export default class LiveGame extends Component {
 
         scene.add(board);
 
-
-        let {setLiveGame, test} = this.props;
-        //test()
         let currentGame = new Game();
-        //currentGame.move(currentGame.getPositionFromString(122), currentGame.getPositionFromString(123))
-        //setLiveGame(currentGame);
-        if(this.props.setLiveGame != undefined) {
-            this.props.setLiveGame(currentGame)
-        }
+
+        currentGame.move(currentGame.getPositionFromString("122"), currentGame.getPositionFromString("123"));
+
         let currentPieces = currentGame.getPieces();
         
         let whitePiecesGroup = new THREE.Group();
@@ -155,61 +132,28 @@ export default class LiveGame extends Component {
 
         let mouse = new THREE.Vector2();
 
-        window.addEventListener('mouseclick', onMouseClick, false);
+        window.addEventListener('mousedown', onMouseDown, false);
 
         animate();
 
         function animate() {
             requestAnimationFrame(animate);
-            render();		
+	        render();		
 	        update();
         }
 
         function update() {
             let ray = new THREE.Raycaster();
-            ray.setFromCamera( mouse, camera );
-            let intersects = ray.intersectObjects(scene.children, true);
-            
-            // if there is one (or more) intersections
-            /*if ( intersects.length > 0 ) {
-                // if the closest object intersected is not the currently stored intersection object
-                if ( intersects[0].object !== INTERSECTED ) {
-                    // restore previous intersection object (if it exists) to its original color
-                    if ( INTERSECTED ) {
-                        INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
-                    } 
-                        
-                    // store reference to closest object as current intersection object
-                    INTERSECTED = intersects[0].object;
-                    // store color of closest object (for later restoration)
-                    INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
-                    // set a new color for closest object
-                    INTERSECTED.material.color.setHex(0xff0000);
-                    /*INTERSECTED.material.opacity = 0.25;
-                    INTERSECTED.material.emissive.set(0xff0000);
-                }
-            } 
-            else // there are no intersections
-            {
-                // restore previous intersection object (if it exists) to its original color
-                if ( INTERSECTED ) {
-                    INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
-                } 
-                
-                // remove previous intersection object reference
-                //     by setting current intersection object to "nothing"
-                INTERSECTED = null;
-            }*/
-            
+            ray.setFromCamera(mouse, camera);
             controls.update();
-            // Maybe update something else here, maybe selected piece
+            // Update anything else that needs to be updated
         }
 
         function render() {
 	        renderer.render( scene, camera );
         }
 
-        function onMouseClick( event ) {
+        function onMouseDown( event ) {
 	        mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
             mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
@@ -217,33 +161,27 @@ export default class LiveGame extends Component {
             ray.setFromCamera( mouse, camera );
             let intersects = ray.intersectObjects(scene.children, true);
 
-            if ( intersects.length > 0 ) {
-                INTERSECTED = intersects[0].object;
-                //intersects[ 0 ].object.geometry.colorsNeedUpdate = true;
-                INTERSECTED.material.opacity = 0.25;
-                INTERSECTED.material.emissive.set(0xff0000);
+            if (intersects.length > 0) {
+
+                if (SELECTED !== null && SELECTED !== intersects[0].object) {
+                    SELECTED.material.opacity = 1;
+                    SELECTED.material.emissive.set(0x000000);
+                }
+                SELECTED = intersects[0].object;
+                SELECTED.material.opacity = 0.25;
+                SELECTED.material.emissive.set(0xff0000);
             }
         }
-
-        
     }
 
-    
     render() {
-        
-        
-        //console.log(typeof(this.props.test()));
-        
-        //this.props.test()
-        
-        
         return (
           <div className = "Gamespace" ref={ref => (this.mount = ref)} />
         )
     }
 
     /*componentWillUnmount() {
-        // Do we need this?
+        
     }*/
 }
 
