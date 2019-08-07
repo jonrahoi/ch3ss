@@ -13,7 +13,6 @@ interface IProps {
 interface IState {
   history: any
   liveGame: any
-  test: any
 }
 export default class what extends Component <IState, IProps>{
   render() {

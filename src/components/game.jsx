@@ -113,11 +113,13 @@ export default class LiveGame extends Component {
         //currentGame.move(currentGame.getPositionFromString("122"), currentGame.getPositionFromString("123"));
 
         let currentPieces = currentGame.getPieces();
-        let {pieces} = this.props
-        if(pieces != undefined) {
+        let {pieces, liveGame} = this.props
+        if(liveGame != undefined) {
             currentPieces = pieces
+            liveGame.move(currentGame.getPositionFromString("144"), currentGame.getPositionFromString("134"))
 
         }
+        
         console.log("pieces in game component: " + pieces);
         
         let whitePiecesGroup = new THREE.Group();
