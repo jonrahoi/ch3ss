@@ -166,7 +166,7 @@ class App extends React.Component {
         {/* pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace setSelectedPiece*/}
         {/* <GGame spaces={s.possibleMoves} pieces={s.pieces} setSelectedPiece={this.setSelectedPiece.bind(this)} setSelectedSpace={this.setSelectedSpace.bind(this)} camera={s.camera} liveGame = {s.liveGame}/> */}
         {/* <GGame setLiveGame = {this.setLiveGame.bind(this)} newGame = {s.newGame} test = {this.test.bind(this)}/> */}
-        <GGame setLiveGame = {this.setLiveGame.bind(this)} test = {this.test.bind(this)} liveGame = {s.liveGame} setNewGame={this.setNewGame.bind(this)} pieces = {s.pieces}/>
+        <GGame key = {Math.random()} setLiveGame = {this.setLiveGame.bind(this)} test = {this.test.bind(this)} liveGame = {s.liveGame} setNewGame={this.setNewGame.bind(this)} pieces = {s.pieces} num = {1}/>
       </div>
     );
   }
