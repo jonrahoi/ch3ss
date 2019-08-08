@@ -19,7 +19,7 @@ A 3D game of chess
 If you don't have node.js and npm in your computer operator as this [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm) to install node.js and npm
 
 ### Clone repo
-`https://github.com/jonrahoi/ch3ss`
+`git clone https://github.com/jonrahoi/ch3ss`
 
 
 ### Registry in [http://rahoi.com](http://rahoi.com)
