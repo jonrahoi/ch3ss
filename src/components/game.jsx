@@ -10,7 +10,6 @@ import { Unicorn } from "@rahoi/ch3ss_logic/dist/Unicorn";
 import { Pawn } from "@rahoi/ch3ss_logic/dist/Pawn";
 import { Queen } from "@rahoi/ch3ss_logic/dist/Queen";
 import { BLACK, WHITE } from "@rahoi/ch3ss_logic/dist/constants";
-import { Position } from '@rahoi/ch3ss_logic';
 
 const whiteMaterial = new THREE.MeshLambertMaterial({color: 0xffffff});
 const blackMaterial = new THREE.MeshLambertMaterial({color: 0x000000});
@@ -29,8 +28,31 @@ const board = new THREE.Group();
 
 let SELECTED_PIECE = null;
 let VALID_SPACES = null;
-let SELECTED_SPACE = null;
 let PIECE_SELECTION_MODE = true;
+
+function buildBoard(scene) {
+    for (let x = 0; x < boardDimension; x++) {
+        for (let y = 0; y < boardDimension; y++) {
+            for (let z = 0; z < boardDimension; z++) {
+                const cube = new THREE.Mesh(boardGeometry, boardMaterial.clone());
+                cube.position.set(x - 2, y - 2, z - 2);
+                
+                cube.userData.x = x;
+                cube.userData.y = y;
+                cube.userData.z = z;
+
+                cube.userData.type = "space";
+                board.add(cube);
+            }
+        }
+    }
+
+    scene.add(board);
+}
+
+function buildPieces() {
+
+}
 
 function getGamePositionFromObject(object) {
     let position_3D = object.position;
@@ -46,11 +68,10 @@ function getGamePositionFromObject(object) {
     return gamePosition;
 }
 
-function setValidSpaces(piece) {
+function setValidSpaces() {
     let validSpaces = [];
-    let piecePosition = getGamePositionFromObject(piece);
+    let piecePosition = getGamePositionFromObject(SELECTED_PIECE);
     let validPositions = currentGame.getPossibleMovesForPieceAtSpace(piecePosition);
-    console.log(validPositions + " LENGTH:" + validPositions.length);
     let position;
     let space;
 
@@ -59,43 +80,38 @@ function setValidSpaces(piece) {
         for (let j = 0; j < board.children.length; j++) {
             space = board.children[j];
             let spaceGamePosition = getGamePositionFromObject(space).getPostionString();
-            if (spaceGamePosition == position) {
-                console.log("FOUND A MATCH!");
+            if (spaceGamePosition === position) {
                 validSpaces.push(space);
             }
         }
     }
 
     VALID_SPACES = validSpaces;
-    console.log("VALID_SPACES:" + VALID_SPACES);
 }
-
-function isValidSpace(space) {
-    if (space != null && VALID_SPACES != null) {
-        for (let i = 0; i < VALID_SPACES.length; i++) {
-            if (VALID_SPACES[i] == space) {
-                return true;
-            }
-        }   
-    }
-    return false;
-}
-
-/*function getObjectFromPosition(Position, group) {
-    // eslint-disable-next-line no-undef
-    for (object in group) {
-        if (object.position.x == Position.getX() - 3 && object.position.y == Position.getY() && object.position.x == Position.getZ()) {
-            return object;
-        }
-    }
-    return null;
-}*/
 
 function highlightValidSpaces() {
     if (VALID_SPACES != null) {
         for (let i = 0; i < VALID_SPACES.length; i++) {
             let space = VALID_SPACES[i];
             space.material.color.setHex(0xff0000);
+        }
+    }
+}
+
+function highlightSelectedPiece() {
+    if (SELECTED_PIECE !== null) {
+        SELECTED_PIECE.material.color.setHex(0xff0000);
+    } 
+}
+
+function unhighlightSelectedPiece() {
+    if (SELECTED_PIECE != null) {
+        if (SELECTED_PIECE.userData.color === "white") {
+            SELECTED_PIECE.material.color.setHex(0xd3d3d3);
+        }
+    
+        if (SELECTED_PIECE.userData.color === "black") {
+            SELECTED_PIECE.material.color.setHex(0x000000);
         }
     }
 }
@@ -180,30 +196,15 @@ export default class LiveGame extends Component {
         const light = new THREE.AmbientLight(0xd3d3d3);
         scene.add(light);
 
-        for (let x = 0; x < boardDimension; x++) {
-            for (let y = 0; y < boardDimension; y++) {
-                for (let z = 0; z < boardDimension; z++) {
-                    const cube = new THREE.Mesh(boardGeometry, boardMaterial.clone());
-                    cube.position.set(x - 2, y - 2, z - 2);
-                    
-                    cube.userData.x = x;
-                    cube.userData.y = y;
-                    cube.userData.z = z;
-
-                    cube.userData.type = "space";
-                    board.add(cube);
-                }
-            }
-        }
-
-        scene.add(board);
-    
+        buildBoard(scene);
 
         let currentPieces = currentGame.getPieces();
         let {pieces, liveGame} = this.props
+        
         if(liveGame !== undefined) {
             currentPieces = pieces;
         }
+        
         let whitePiecesGroup = new THREE.Group();
         let blackPiecesGroup = new THREE.Group();
 
@@ -236,8 +237,6 @@ export default class LiveGame extends Component {
             let ray = new THREE.Raycaster();
             ray.setFromCamera(mouse, camera);
             controls.update();
-
-            // Update anything else that needs to be updated
         }
 
         function render() {
@@ -252,9 +251,9 @@ export default class LiveGame extends Component {
             let intersects = ray.intersectObjects(scene.children, true);
 
             if (PIECE_SELECTION_MODE) {
-                unhighlightSpaces();
                 let aPieceWasSelected = false;
                 let intersection = -1;
+                
                 if (intersects.length > 0) {
                     for (let i = 0; i < intersects.length; i++) {
                         if (intersects[i].object.userData.type === "piece") {
@@ -264,69 +263,28 @@ export default class LiveGame extends Component {
                         }
                     }
                 }          
+                
                 if (aPieceWasSelected) {
-                    console.log("PIECE SELECTED");
                     if (SELECTED_PIECE !== null && SELECTED_PIECE !== intersects[intersection].object) {
-                        if (SELECTED_PIECE.userData.color === "white") {
-                            SELECTED_PIECE.material.color.setHex(0xd3d3d3);
-                        }
-        
-                        if (SELECTED_PIECE.userData.color === "black") {
-                            SELECTED_PIECE.material.color.setHex(0x000000);
-                        }
+                        unhighlightSelectedPiece();
                     }
             
                     SELECTED_PIECE = intersects[intersection].object;
-                    SELECTED_PIECE.material.color.setHex(0xff0000);
-
-                    console.log("COLOR SET!");
-
-                    setValidSpaces(SELECTED_PIECE);
+                    unhighlightSpaces();
+                    highlightSelectedPiece();
+                    setValidSpaces();
                     highlightValidSpaces();
-                    //SELECTED_SPACE = null;
-                    //PIECE_SELECTION_MODE = false;
                 }
-            } /*else {
-                console.log("SPACE SELECTION MODE");
-                // FIX BUG HERE SO CAN CLICK MULTIPLE TIMES EVEN IF MISS CORRECT SPACE
-                let aSpaceWasSelected = false;
-                let validSpace = false;
-                let selectedSpace = null;
-                
-                let intersection = -1;
-                
-                if (intersects.length > 0) {
-                    for (let i = 0; i < intersects.length; i++) {
-                        if (intersects[i].object.userData.type === "space") {
-                            selectedSpace = intersects[i];
-                            aSpaceWasSelected = true;
-                            intersection = i;
-                            break;
-                        }
-                    }
-                }          
-                if (isValidSpace(selectedSpace)) {
-                    SELECTED_SPACE = selectedSpace;
-                    currentGame.move(getGamePositionFromObject(SELECTED_PIECE), getGamePositionFromObject(SELECTED_SPACE));
-                    SELECTED_PIECE = null;
-                    SPACE_SELECTION_MODE = true;
-                }
-            }*/
+            } 
         }
     }
 
     render() {
-        //let { pieces, setLiveGame } = this.props
-        //setLiveGame(currentGame1)
         return (
             <div className = "Gamespace" ref={ref => (this.mount = ref)}>
             </div>
         )
     }
-
-    /*componentWillUnmount() {
-        
-    }*/
 }
 
 const rootElement = document.getElementById("root");
