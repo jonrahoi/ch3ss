@@ -8,6 +8,8 @@ import { Game } from '@rahoi/ch3ss_logic'
 import PossibleMove from './components/possibleMove'
 import GGame from './components/game'
 import { Position } from '@rahoi/ch3ss_logic'
+import * as fs from 'fs';
+//const fs = require('fs');
 
 let theGame = new Game(1)
 
@@ -26,7 +28,20 @@ class App extends React.Component {
     selectedPiece: '',
     selectedSpace: '',
     camera: 'white',
-    newGame: ''
+    newGame: '',
+    From: '',
+    To: ''
+  }
+
+  setFromAndTo = (a: string, b: string) => {
+    this.setState({
+      From: a,
+      To: b
+    })
+  }
+  saveGame = () => {
+    let { liveGame } = this.state
+    liveGame.saveGameToFile("./game1.json")
   }
 
   setLiveGame = (liveGame: any) => {
@@ -105,10 +120,13 @@ class App extends React.Component {
         alert("Checkmate, Player: " + player)
       }
       else if (liveGame.getStaleMate()) {
-        alert("Checkmate, Player: " + player)
+        alert("Checkmate, Player: " + player + " end of the game")        
       }
       else if (liveGame.getCheck()) {
         alert("Check!")
+      }
+      else if (liveGame.getStaleMate()) {
+        alert("StaleMate end of game")
       }
     }
     this.setState({ liveGame: liveGame })
@@ -159,14 +177,14 @@ class App extends React.Component {
       <div className="App">
         <PlayerInfo game={s.liveGame} step={s.step} player={s.player} />
         <Move move={this.move.bind(this)} possible={this.possible.bind(this)} history={this.getHistory.bind(this)} setPlayer={this.setPlayer.bind(this)} setPieces={this.setPieces.bind(this)} resetPossibleMove={this.resetPossibleMove.bind(this)} />
-        <Buttons setCamera={this.setPlayer.bind(this)} setNewGame={this.setNewGame.bind(this)} player={s.player} />
+        <Buttons setCamera={this.setPlayer.bind(this)} setNewGame={this.setNewGame.bind(this)} player={s.player} saveGame = {this.saveGame.bind(this)}/>
         <PossibleMove possibleMoves={s.possibleMoves} liveGame={s.liveGame} possible={this.possible.bind(this)} />
         <History history={s.history} liveGame={s.liveGame} />
         {/* <What /> */}
         {/* pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace setSelectedPiece*/}
         {/* <GGame spaces={s.possibleMoves} pieces={s.pieces} setSelectedPiece={this.setSelectedPiece.bind(this)} setSelectedSpace={this.setSelectedSpace.bind(this)} camera={s.camera} liveGame = {s.liveGame}/> */}
         {/* <GGame setLiveGame = {this.setLiveGame.bind(this)} newGame = {s.newGame} test = {this.test.bind(this)}/> */}
-        <GGame key = {Math.random()} setLiveGame = {this.setLiveGame.bind(this)} test = {this.test.bind(this)} liveGame = {s.liveGame} setNewGame={this.setNewGame.bind(this)} pieces = {s.pieces} num = {1}/>
+        <GGame key = {Math.random()} setLiveGame = {this.setLiveGame.bind(this)} test = {this.test.bind(this)} liveGame = {s.liveGame} setNewGame={this.setNewGame.bind(this)} pieces = {s.pieces} num = {1} setFromAndTo = {this.setFromAndTo.bind(this)}/>
       </div>
     );
   }

@@ -23,7 +23,9 @@ const kingGeometry = new THREE.TetrahedronGeometry(0.6);
 const queenGeometry = new THREE.ConeGeometry(0.25, 0.75, 16);
 
 let SELECTED = null;
-
+let currnetGame1 = new Game(1);
+let From = '';
+let To = '';
 function addPieceToGroup(piece, group) {
     let newMaterial;
     let newGeometry;
@@ -72,6 +74,8 @@ function addPieceToGroup(piece, group) {
 
 export default class LiveGame extends Component {
     componentDidMount() {
+        From = '122';
+        To = '123';
         const scene = new THREE.Scene();
         let camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.rotation.order = 'YXZ';
@@ -112,11 +116,11 @@ export default class LiveGame extends Component {
 
         //currentGame.move(currentGame.getPositionFromString("122"), currentGame.getPositionFromString("123"));
 
-        let currentPieces = currentGame.getPieces();
+        let currentPieces = currnetGame1.getPieces();
         let {pieces, liveGame} = this.props
         if(liveGame != undefined) {
             currentPieces = pieces
-            liveGame.move(currentGame.getPositionFromString("144"), currentGame.getPositionFromString("134"))
+            //liveGame.move(currnetGame1.getPositionFromString("144"), currentGame.getPositionFromString("134"))
 
         }
         
@@ -183,9 +187,15 @@ export default class LiveGame extends Component {
     }
 
     render() {
-        let {pieces} = this.props
-        console.log("pieces in game render: " + pieces);
+        console.log("From: " + From + " To: " + To + " in game");
         
+        let {pieces, setLiveGame, setFromAndTo} = this.props
+        // if(setFromAndTo != undefined) {
+        //     setFromAndTo(From, To)
+        // }
+        
+        console.log("pieces in game render: " + pieces);
+        //setLiveGame(currnetGame1)
         return (
           <div className = "Gamespace" ref={ref => (this.mount = ref)} />
         )

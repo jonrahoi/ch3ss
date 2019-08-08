@@ -10,6 +10,7 @@ interface IProps {
     setCamera: any
     setNewGame: any
     player: string
+    saveGame: any
 }
 export default class Buttons extends React.Component<IProps, IState>{
     state = { visible: false };
@@ -54,6 +55,11 @@ export default class Buttons extends React.Component<IProps, IState>{
         alert('Draw!')
         setNewGame();
     }
+
+    clickOnSave = () => {
+        let {saveGame} = this.props
+        saveGame()
+    }
     public render() {
 
         return (
@@ -72,9 +78,9 @@ export default class Buttons extends React.Component<IProps, IState>{
                     <Button onClick={this.clickOnNewGame} type="primary">New Game</Button>
                 </div>
                 
-                <div className="Save" >
-                    <Button onClick={this.clickOnNewGame} type="primary">Save</Button>
-                </div>
+                {/* <div className="Save" >
+                    <Button onClick={this.clickOnSave} type="primary">Save</Button>
+                </div> */}
                 {/* <div className="newGame" >
                     <Button onClick={this.clickOnNewGame} type="primary">New Game</Button>
                 </div>
