@@ -10,24 +10,24 @@ A 3D game of chess
 ![](https://img.shields.io/badge/antd-v3.20.7-green)
 ![](https://img.shields.io/badge/typescript-v3.5.2-green)
 
-##Installation
+## Installation
 
 **We recommend use Chrome and Visual Studio Code**
 
-###node.js and npm
+### node.js and npm
 
 If you don't have node.js and npm in your computer operator as this [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm) to install node.js and npm
 
 
-###Registry in [http://rahoi.com](http://rahoi.com)
+### Registry in [http://rahoi.com](http://rahoi.com)
 
 `npm set registry http://rahoi.com:4873`
 `npm adduser --registry http://rahoi.com:4873`
 
-###Clone repo
+### Clone repo
 `https://github.com/jonrahoi/ch3ss`
 
-###Install npm
+### Install npm
 `npm install`
 
 ### Start
