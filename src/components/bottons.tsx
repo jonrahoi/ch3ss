@@ -10,7 +10,6 @@ interface IProps {
     setCamera: any
     setNewGame: any
     player: string
-    saveGame: any
 }
 export default class Buttons extends React.Component<IProps, IState>{
     state = { visible: false };
@@ -56,10 +55,10 @@ export default class Buttons extends React.Component<IProps, IState>{
         setNewGame();
     }
 
-    clickOnSave = () => {
-        let {saveGame} = this.props
-        saveGame()
-    }
+    // clickOnSave = () => {
+    //     let {saveGame} = this.props
+    //     saveGame()
+    // }
     public render() {
 
         return (

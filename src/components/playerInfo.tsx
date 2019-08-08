@@ -4,10 +4,11 @@ interface IState {
 
 }
 
+/**
+ * 
+ */
 interface IProps {
   game: any,
-  step: number,
-  createGame?: any
   player: any
 }
 
@@ -15,9 +16,6 @@ export default class PlayerInfo extends React.Component<IProps, IState>{
   
   public render() {
     let {player} = this.props
-    let flag1: string
-    let flag2: string
-    console.log("Player Color in playerinfo: "+player);
     let whiteStyle = {
       visibility: 'visible',
     };
@@ -27,14 +25,12 @@ export default class PlayerInfo extends React.Component<IProps, IState>{
     if (player == 'White') {
       whiteStyle.visibility = 'visable'
       blackStyle.visibility = 'hidden'
-      console.log("is white in playerinfo");
       
     }
     if (player == 'Black') {
       whiteStyle.visibility = 'hidden'
       blackStyle.visibility = 'visible'
     }
-    //let a = 'visible'
     console.log("whiteStyle: " + whiteStyle.visibility+"    "+"blackStyle: " + blackStyle.visibility);
     
     return (
