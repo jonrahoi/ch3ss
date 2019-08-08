@@ -10,30 +10,108 @@ import { Unicorn } from "@rahoi/ch3ss_logic/dist/Unicorn";
 import { Pawn } from "@rahoi/ch3ss_logic/dist/Pawn";
 import { Queen } from "@rahoi/ch3ss_logic/dist/Queen";
 import { BLACK, WHITE } from "@rahoi/ch3ss_logic/dist/constants";
+import { Position } from '@rahoi/ch3ss_logic';
 
-const whiteMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
-const blackMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
+const whiteMaterial = new THREE.MeshLambertMaterial({color: 0xffffff});
+const blackMaterial = new THREE.MeshLambertMaterial({color: 0x000000});
 
-const pawnGeometry = new THREE.SphereGeometry(0.35, 16, 12);
-const rookGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
+const pawnGeometry = new THREE.SphereGeometry(0.3, 16, 12);
+const rookGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
 const bishopGeometry = new THREE.CylinderGeometry(0.2, 0.25, 0.5, 16);
-const knightGeometry = new THREE.OctahedronGeometry(0.35);
-const unicornGeometry = new THREE.IcosahedronGeometry(0.35);
-const kingGeometry = new THREE.TetrahedronGeometry(0.6);
+const knightGeometry = new THREE.OctahedronGeometry(0.3);
+const unicornGeometry = new THREE.IcosahedronGeometry(0.3);
+const kingGeometry = new THREE.TetrahedronGeometry(0.5);
 const queenGeometry = new THREE.ConeGeometry(0.25, 0.75, 16);
 
-let SELECTED = null;
+const boardMaterial = new THREE.MeshLambertMaterial({color: 0xfdfdfd, transparent: true, opacity: 0.05});const boardGeometry = new THREE.BoxGeometry(1, 1, 1);
+const boardDimension = 5;
+const board = new THREE.Group();
 
-function addPieceToGroup(piece, group) {
-    let newMaterial;
+let SELECTED_PIECE = null;
+let VALID_SPACES = null;
+let SELECTED_SPACE = null;
+let PIECE_SELECTION_MODE = true;
+
+function getGamePositionFromObject(object) {
+    let position_3D = object.position;
+    let gamePosition;
+    let x = position_3D.x + 3;
+    let y = position_3D.y + 3;
+    let z = position_3D.z + 3;
+
+    let positionString = x.toString() + y.toString() + z.toString();
+    
+    gamePosition = currentGame.getPositionFromString(positionString);
+     
+    return gamePosition;
+}
+
+function setValidSpaces(piece) {
+    let validSpaces = [];
+    let piecePosition = getGamePositionFromObject(piece);
+    let validPositions = currentGame.getPossibleMovesForPieceAtSpace(piecePosition);
+    console.log(validPositions + " LENGTH:" + validPositions.length);
+    let position;
+    let space;
+
+    for (let i = 0; i < validPositions.length; i++) {
+        position = validPositions[i].getPostionString();
+        for (let j = 0; j < board.children.length; j++) {
+            space = board.children[j];
+            let spaceGamePosition = getGamePositionFromObject(space).getPostionString();
+            if (spaceGamePosition == position) {
+                console.log("FOUND A MATCH!");
+                validSpaces.push(space);
+            }
+        }
+    }
+
+    VALID_SPACES = validSpaces;
+    console.log("VALID_SPACES:" + VALID_SPACES);
+}
+
+function isValidSpace(space) {
+    if (space != null && VALID_SPACES != null) {
+        for (let i = 0; i < VALID_SPACES.length; i++) {
+            if (VALID_SPACES[i] == space) {
+                return true;
+            }
+        }   
+    }
+    return false;
+}
+
+/*function getObjectFromPosition(Position, group) {
+    // eslint-disable-next-line no-undef
+    for (object in group) {
+        if (object.position.x == Position.getX() - 3 && object.position.y == Position.getY() && object.position.x == Position.getZ()) {
+            return object;
+        }
+    }
+    return null;
+}*/
+
+function highlightValidSpaces() {
+    if (VALID_SPACES != null) {
+        for (let i = 0; i < VALID_SPACES.length; i++) {
+            let space = VALID_SPACES[i];
+            space.material.color.setHex(0xff0000);
+        }
+    }
+}
+
+function unhighlightSpaces() {
+    if (VALID_SPACES != null) {
+        for (let i = 0; i < VALID_SPACES.length; i++) {
+            let space = VALID_SPACES[i];
+            space.material.color.setHex(0xfdfdfd);
+        }
+    }
+}
+
+function createPieceMesh(piece, group) {
     let newGeometry;
-
-    if (piece.color === WHITE) {
-        newMaterial = whiteMaterial.clone();
-    }
-    if (piece.color === BLACK) {
-        newMaterial = blackMaterial.clone();
-    }
+    let newPiece;
 
     if (piece instanceof Pawn) {
         newGeometry = pawnGeometry;
@@ -62,13 +140,25 @@ function addPieceToGroup(piece, group) {
         newGeometry = kingGeometry;
     }
 
-    const newPiece = new THREE.Mesh(newGeometry, newMaterial);
-    const newPosition = piece.getPosition();
+    if (piece.color === WHITE) {
+        newPiece = new THREE.Mesh(newGeometry, whiteMaterial.clone());
+        newPiece.userData.color = "white";
+    }
+    if (piece.color === BLACK) {
+        newPiece = new THREE.Mesh(newGeometry, blackMaterial.clone());
+        newPiece.userData.color = "black";
+    }
+
+    newPiece.userData.type = "piece";
+    
+    let newPosition = piece.getPosition();
 
     newPiece.position.set(newPosition.getX() - 3, newPosition.getY() - 3, newPosition.getZ() - 3);
 
     group.add(newPiece);
 }
+
+let currentGame = new Game();
 
 export default class LiveGame extends Component {
     componentDidMount() {
@@ -87,43 +177,43 @@ export default class LiveGame extends Component {
         const OrbitControls = require('three-orbitcontrols');
         let controls = new OrbitControls(camera, renderer.domElement);
 
-        const light = new THREE.AmbientLight(0x404040);
+        const light = new THREE.AmbientLight(0xd3d3d3);
         scene.add(light);
-
-        const boardGeometry = new THREE.BoxGeometry(1, 1, 1);
-        const boardMaterial = new THREE.MeshLambertMaterial({color: 0xfdfdfd, transparent: true, opacity: 0.1});
-
-        const boardDimension = 5;
-        const board = new THREE.Object3D();
 
         for (let x = 0; x < boardDimension; x++) {
             for (let y = 0; y < boardDimension; y++) {
                 for (let z = 0; z < boardDimension; z++) {
                     const cube = new THREE.Mesh(boardGeometry, boardMaterial.clone());
                     cube.position.set(x - 2, y - 2, z - 2);
+                    
+                    cube.userData.x = x;
+                    cube.userData.y = y;
+                    cube.userData.z = z;
+
+                    cube.userData.type = "space";
                     board.add(cube);
                 }
             }
         }
 
         scene.add(board);
-
-        let currentGame = new Game();
-
-        currentGame.move(currentGame.getPositionFromString("122"), currentGame.getPositionFromString("123"));
+    
 
         let currentPieces = currentGame.getPieces();
-        
+        let {pieces, liveGame} = this.props
+        if(liveGame !== undefined) {
+            currentPieces = pieces;
+        }
         let whitePiecesGroup = new THREE.Group();
         let blackPiecesGroup = new THREE.Group();
 
         for (var i = 0; i < currentPieces.length; i++) {
             if (currentPieces[i].color === WHITE) {
-                addPieceToGroup(currentPieces[i], whitePiecesGroup);
+                createPieceMesh(currentPieces[i], whitePiecesGroup);
             }
             
             if (currentPieces[i].color === BLACK) {
-                addPieceToGroup(currentPieces[i], blackPiecesGroup);
+                createPieceMesh(currentPieces[i], blackPiecesGroup);
             }
         }
 
@@ -146,6 +236,7 @@ export default class LiveGame extends Component {
             let ray = new THREE.Raycaster();
             ray.setFromCamera(mouse, camera);
             controls.update();
+
             // Update anything else that needs to be updated
         }
 
@@ -154,29 +245,82 @@ export default class LiveGame extends Component {
         }
 
         function onMouseDown( event ) {
-	        mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-            mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
+	        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
             let ray = new THREE.Raycaster();
-            ray.setFromCamera( mouse, camera );
+            ray.setFromCamera(mouse, camera);
             let intersects = ray.intersectObjects(scene.children, true);
 
-            if (intersects.length > 0) {
+            if (PIECE_SELECTION_MODE) {
+                unhighlightSpaces();
+                let aPieceWasSelected = false;
+                let intersection = -1;
+                if (intersects.length > 0) {
+                    for (let i = 0; i < intersects.length; i++) {
+                        if (intersects[i].object.userData.type === "piece") {
+                            aPieceWasSelected = true;
+                            intersection = i;
+                            break;
+                        }
+                    }
+                }          
+                if (aPieceWasSelected) {
+                    console.log("PIECE SELECTED");
+                    if (SELECTED_PIECE !== null && SELECTED_PIECE !== intersects[intersection].object) {
+                        if (SELECTED_PIECE.userData.color === "white") {
+                            SELECTED_PIECE.material.color.setHex(0xd3d3d3);
+                        }
+        
+                        if (SELECTED_PIECE.userData.color === "black") {
+                            SELECTED_PIECE.material.color.setHex(0x000000);
+                        }
+                    }
+            
+                    SELECTED_PIECE = intersects[intersection].object;
+                    SELECTED_PIECE.material.color.setHex(0xff0000);
 
-                if (SELECTED !== null && SELECTED !== intersects[0].object) {
-                    SELECTED.material.opacity = 1;
-                    SELECTED.material.emissive.set(0x000000);
+                    console.log("COLOR SET!");
+
+                    setValidSpaces(SELECTED_PIECE);
+                    highlightValidSpaces();
+                    //SELECTED_SPACE = null;
+                    //PIECE_SELECTION_MODE = false;
                 }
-                SELECTED = intersects[0].object;
-                SELECTED.material.opacity = 0.25;
-                SELECTED.material.emissive.set(0xff0000);
-            }
+            } /*else {
+                console.log("SPACE SELECTION MODE");
+                // FIX BUG HERE SO CAN CLICK MULTIPLE TIMES EVEN IF MISS CORRECT SPACE
+                let aSpaceWasSelected = false;
+                let validSpace = false;
+                let selectedSpace = null;
+                
+                let intersection = -1;
+                
+                if (intersects.length > 0) {
+                    for (let i = 0; i < intersects.length; i++) {
+                        if (intersects[i].object.userData.type === "space") {
+                            selectedSpace = intersects[i];
+                            aSpaceWasSelected = true;
+                            intersection = i;
+                            break;
+                        }
+                    }
+                }          
+                if (isValidSpace(selectedSpace)) {
+                    SELECTED_SPACE = selectedSpace;
+                    currentGame.move(getGamePositionFromObject(SELECTED_PIECE), getGamePositionFromObject(SELECTED_SPACE));
+                    SELECTED_PIECE = null;
+                    SPACE_SELECTION_MODE = true;
+                }
+            }*/
         }
     }
 
     render() {
+        //let { pieces, setLiveGame } = this.props
+        //setLiveGame(currentGame1)
         return (
-          <div className = "Gamespace" ref={ref => (this.mount = ref)} />
+            <div className = "Gamespace" ref={ref => (this.mount = ref)}>
+            </div>
         )
     }
 

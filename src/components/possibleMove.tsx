@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 
 interface IProps {
     possibleMoves: any
-    liveGame: any
-    possible: any
 }
 
 interface IState {
@@ -14,39 +12,37 @@ const ButtonName = (): any => {
             Possible Moves
         </button>
     )
-
 }
 
+/**
+ * Return a list of possible move
+ * @param props this.props
+ */
 const MoveItem = (props: any): any => {
     let result = ReptileListItems(props)
-
-     return (
+    return (
         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
             {result}
         </div>
     )
 }
 
+/**
+ * Return a list of <a/>
+ * @param props this.props
+ */
 function ReptileListItems(props: any) {
-    //let {possibleMoves} = this.this.props
-    
     const reptiles = props.possibleMoves;
-    //const possibleMoves =
-    
     return reptiles.map((reptile: React.ReactNode) => (
         <a className="dropdown-item" href="#">
             {reptile}
         </a>
-        
     ));
 }
 
 export default class possibleMove extends Component<IProps, IState> {
     render() {
-        let {liveGame} = this.props
-        console.log("liveGame in possibleMove: " + liveGame);
-        
-       return (
+        return (
             <div className="dropdown">
                 <ButtonName />
                 <MoveItem possibleMoves={this.props.possibleMoves} />

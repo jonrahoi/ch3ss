@@ -71,11 +71,12 @@
   #game {
     position: fixed;
     top: 10%
-  } */
-  .gamePlay {
+  } 
+  
+  /* .Gamespace {
     position: fixed;
     top: 8%
-  }
+  } */
 
   .input {
     position: fixed;
@@ -136,15 +137,48 @@
   .rules {
     position: fixed;
     z-index: 99999999999999999999999999999999999999999999;
+    left: 80%;
+    top: 37%;
   }
 
-  .Resignation {
+  .newGame {
     position: fixed;
     left: 80%;
     top: 32%;
     z-index: 2;
 
   }
+  .Resignation {
+    position: fixed;
+    left: 80%;
+    top: 22%;
+    z-index: 2;
+
+  }
+
+  .Draw {
+    position: fixed;
+    left: 80%;
+    top: 27%;
+    z-index: 2;
+
+  }
+
+  .Save {
+    position: fixed;
+    left: 80%;
+    top: 32%;
+    z-index: 2;
+
+  }
+
+  /* .Resignation {
+    position: fixed;
+    left: 80%;
+    top: 32%;
+    z-index: 2;
+
+  } */
 
   /* .body {
     background-image: url("./img/4f1eae6b34ef4bfd5d5eb0245def29b5.jpg");
