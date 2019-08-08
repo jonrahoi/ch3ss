@@ -14,12 +14,18 @@ interface IProps {
 export default class Buttons extends React.Component<IProps, IState>{
     state = { visible: false };
 
+    /**
+     * This will set a value of visible variable 
+     */
     showDrawer = () => {
         this.setState({
             visible: true,
         });
     };
 
+    /**
+     * This will set a value of visible variable 
+     */
     onClose = () => {
         this.setState({
             visible: false,
@@ -29,26 +35,35 @@ export default class Buttons extends React.Component<IProps, IState>{
 
 
 
-    clickOnBlack = () => {
-        let { setCamera } = this.props
-        setCamera('black')
-    }
-    clickOnWhite = () => {
-        let { setCamera } = this.props
-        setCamera('white')
-    }
+    // clickOnBlack = () => {
+    //     let { setCamera } = this.props
+    //     setCamera('black')
+    // }
+    // clickOnWhite = () => {
+    //     let { setCamera } = this.props
+    //     setCamera('white')
+    // }
 
+    /**
+     * Reset liveGame in app.tsx
+     */
     clickOnNewGame = () => {
         let { setNewGame } = this.props
         setNewGame()
     }
 
+    /**
+     * Show resign and create a new game
+     */
     clickOnResignation = () => {
         let {setNewGame, player} = this.props
         alert(player+', you lose! New game start')
         setNewGame();
     }
 
+    /**
+     * Show draw and create a new game
+     */
     clickOnDraw = () => {
         let {setNewGame, player} = this.props
         alert('Draw!')
@@ -106,9 +121,6 @@ export default class Buttons extends React.Component<IProps, IState>{
                         <p>Unicorn: Moves through corners of cells</p>
                         <p>King:  Any adjacent space, through edge, corner, or face</p>
                         <p>Pawn: Moves up towards the far edge (up/down and across), captures diagonally forward or diagonally forward up/down, "queened" if reaches one of the opponent's two back rows</p>
-
-
-
                     </Drawer>
                 </div>
                 <p> </p>

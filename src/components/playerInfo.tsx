@@ -4,11 +4,7 @@ interface IState {
 
 }
 
-/**
- * 
- */
 interface IProps {
-  game: any,
   player: any
 }
 
@@ -31,7 +27,6 @@ export default class PlayerInfo extends React.Component<IProps, IState>{
       whiteStyle.visibility = 'hidden'
       blackStyle.visibility = 'visible'
     }
-    console.log("whiteStyle: " + whiteStyle.visibility+"    "+"blackStyle: " + blackStyle.visibility);
     
     return (
       <div className = "palyerInfo">

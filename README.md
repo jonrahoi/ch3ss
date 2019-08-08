@@ -12,7 +12,7 @@ A 3D game of chess
 
 ###Installation
 
-**We recommend use chrome**
+**We recommend use Chrome and Visual Studio Code**
 
 ####node.js and npm
 

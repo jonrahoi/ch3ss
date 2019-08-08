@@ -190,9 +190,9 @@ export default class LiveGame extends Component {
         console.log("From: " + From + " To: " + To + " in game");
         
         let {pieces, setLiveGame, setFromAndTo} = this.props
-        // if(setFromAndTo != undefined) {
-        //     setFromAndTo(From, To)
-        // }
+//         if(setFromAndTo != undefined) {
+// setFromAndTo(From, To)
+//         }
         
         console.log("pieces in game render: " + pieces);
         //setLiveGame(currnetGame1)

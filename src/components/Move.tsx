@@ -19,6 +19,9 @@ interface IProps {
   resetPossibleMove: any
 }
 
+/**
+ * Move pieces of liveGame
+ */
 export default class Move extends React.Component<IProps, IState>{
   constructor(props: any) {
     super(props);
@@ -34,6 +37,8 @@ export default class Move extends React.Component<IProps, IState>{
   public handleChangeFrom(event: { target: { value: any; }; }) {
     this.setState({ From: event.target.value });
     var a: string = event.target.value
+
+    // if a.length = 3, that means this is a vailed input to get possible move at least the length is vailed
     if (a.length == 3) {
       this.props.possible(a);
     }
@@ -43,6 +48,10 @@ export default class Move extends React.Component<IProps, IState>{
     this.setState({ To: event.target.value });
   }
 
+  /**
+   * Clear input area, clear possible move, move pieces,  update pieces location, update player turns
+   * @param event Click event
+   */
   public handleSubmit(event: { preventDefault: () => void; }) {
     let { setPlayer, setPieces, resetPossibleMove } = this.props
     this.props.move(this.state.From, this.state.To)
@@ -56,12 +65,7 @@ export default class Move extends React.Component<IProps, IState>{
     event.preventDefault();
   }
 
-  movePiece = () => {
-    let { move, history, resetPossibleMove } = this.props
-    let { From, To } = this.state
-    history()
-    resetPossibleMove()
-  }
+  
 
   public render() {
     return (
@@ -72,7 +76,7 @@ export default class Move extends React.Component<IProps, IState>{
           {'   '}
           To:
                 <input type="text" value={this.state.To} onChange={this.handleChangeTo} />
-          <input type="submit" value="Move" onClick={this.movePiece} />
+          <input type="submit" value="Move" onClick={this.handleSubmit} />
         </div>
       </form>
     );

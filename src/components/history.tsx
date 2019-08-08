@@ -5,14 +5,14 @@ import { Table } from 'antd';
 import React, { Component } from 'react'
 
 interface IProps {
-  history: [
-    ''
-  ]
-  liveGame: any
+  
 }
+
+/**
+ * Get history from app.tsx
+ */
 interface IState {
   history: any
-  liveGame: any
 }
 export default class what extends Component <IState, IProps>{
   render() {
@@ -34,11 +34,7 @@ export default class what extends Component <IState, IProps>{
         width: 50,
       },
       
-    ];
-    console.log("history in hitory: " + history);
-    
-    let num: number
-    
+    ];    
     
     const data: any = []
     
@@ -60,6 +56,7 @@ export default class what extends Component <IState, IProps>{
         })
       }
     }
+    
     return (
       <div className = "history" style = {{width: 300}}>
         <Table columns={columns} dataSource={data} pagination={{ pageSize: 20 }} scroll={{ y: 240 }} />

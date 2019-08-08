@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 
 interface IProps {
     possibleMoves: any
-    liveGame: any
-    possible: any
 }
 
 interface IState {
@@ -16,6 +14,10 @@ const ButtonName = (): any => {
     )
 }
 
+/**
+ * Return a list of possible move
+ * @param props this.props
+ */
 const MoveItem = (props: any): any => {
     let result = ReptileListItems(props)
     return (
@@ -25,6 +27,10 @@ const MoveItem = (props: any): any => {
     )
 }
 
+/**
+ * Return a list of <a/>
+ * @param props this.props
+ */
 function ReptileListItems(props: any) {
     const reptiles = props.possibleMoves;
     return reptiles.map((reptile: React.ReactNode) => (

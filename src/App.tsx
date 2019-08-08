@@ -213,11 +213,11 @@ class App extends React.Component {
     const s = this.state
     return (
       <div className="App">
-        <PlayerInfo game={s.liveGame} player={s.player} />
+        <PlayerInfo player={s.player} />
         <Move move={this.move.bind(this)} possible={this.possible.bind(this)} history={this.getHistory.bind(this)} setPlayer={this.setPlayer.bind(this)} setPieces={this.setPieces.bind(this)} resetPossibleMove={this.resetPossibleMove.bind(this)} />
         <Buttons setCamera={this.setPlayer.bind(this)} setNewGame={this.setNewGame.bind(this)} player={s.player} />
-        <PossibleMove possibleMoves={s.possibleMoves} liveGame={s.liveGame} possible={this.possible.bind(this)} />
-        <History history={s.history} liveGame={s.liveGame} />
+        <PossibleMove possibleMoves={s.possibleMoves}  />
+        <History history={s.history}/>
         {/* <What /> */}
         {/* pieces, spaces, selectedPiece, selectedSpace, setSelectedSpace setSelectedPiece*/}
         {/* <GGame spaces={s.possibleMoves} pieces={s.pieces} setSelectedPiece={this.setSelectedPiece.bind(this)} setSelectedSpace={this.setSelectedSpace.bind(this)} camera={s.camera} liveGame = {s.liveGame}/> */}
