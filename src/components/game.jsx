@@ -289,7 +289,6 @@ export default class LiveGame extends Component {
             } /*else {
                 console.log("SPACE SELECTION MODE");
                 // FIX BUG HERE SO CAN CLICK MULTIPLE TIMES EVEN IF MISS CORRECT SPACE
-
                 let aSpaceWasSelected = false;
                 let validSpace = false;
                 let selectedSpace = null;
